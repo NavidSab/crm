@@ -1,21 +1,21 @@
 <?php
 
-namespace Modules\User\Providers;
+namespace Modules\Auth\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
-class UserServiceProvider extends ServiceProvider
+class AuthServiceProvider extends ServiceProvider
 {
     /**
      * @var string $moduleName
      */
-    protected $moduleName = 'User';
+    protected $moduleName = 'Auth';
 
     /**
      * @var string $moduleNameLower
      */
-    protected $moduleNameLower = 'user';
+    protected $moduleNameLower = 'auth';
 
     /**
      * Boot the application events.
