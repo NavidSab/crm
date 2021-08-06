@@ -40,7 +40,7 @@ class FileManagerController extends Controller
      */
     public function __construct(FileManager $fm)
     {
-        
+        $this->middleware('auth');
         $this->fm = $fm;
         
     }

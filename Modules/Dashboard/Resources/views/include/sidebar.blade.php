@@ -13,7 +13,7 @@
             <a href="{{route('user')}}"><i class="fas fa-user"></i> User</a>
         </li>
         <li>
-            <a href="{{route('role')}}"><i class="fas fa-users"></i> Role</a>
+            <a href="{{route('rolepermission')}}"><i class="fas fa-users"></i> Role</a>
         </li> 
         <li>
             <a href="{{route('menu')}}"><i class="fas fa-list"></i> Menu</a>

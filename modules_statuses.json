@@ -1,7 +1,7 @@
 {
     "Dashboard": true,
     "FileManager": true,
-    "Role": true,
+    "RolePermission": true,
     "Auth": true,
     "User": true,
     "Menu": true
