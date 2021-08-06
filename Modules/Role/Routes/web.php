@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('user')->group(function() {
-    Route::get('/', 'UserController@index')->name('user');
+Route::prefix('role')->group(function() {
+    Route::get('/', 'RoleController@index')->name('role');
 });

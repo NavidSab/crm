@@ -9,11 +9,14 @@
          <li>
             <a href="{{route('filemanager')}}"><i class="fas fa-file-alt"></i> FileManager</a>
         </li>
-        {{-- <li>
-            <a href="{{route('upload')}}"><i class="fas fa-file-alt"></i> Menu</a>
+        <li>
+            <a href="{{route('user')}}"><i class="fas fa-user"></i> User</a>
         </li>
         <li>
-            <a href="{{route('upload')}}"><i class="fas fa-file-alt"></i> Role</a>
-        </li> --}} 
+            <a href="{{route('role')}}"><i class="fas fa-users"></i> Role</a>
+        </li> 
+        <li>
+            <a href="{{route('menu')}}"><i class="fas fa-list"></i> Menu</a>
+        </li> 
     </ul>
 </nav>
