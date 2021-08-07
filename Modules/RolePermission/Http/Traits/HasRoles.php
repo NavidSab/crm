@@ -1,12 +1,12 @@
 <?php
 
-namespace Spatie\Permission\Traits;
+namespace Modules\RolePermission\Http\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
-use Spatie\Permission\Contracts\Role;
-use Spatie\Permission\PermissionRegistrar;
+use Modules\RolePermission\Http\Contracts\Role;
+use Modules\RolePermission\Services\PermissionRegistrar;
 
 trait HasRoles
 {
@@ -40,10 +40,10 @@ trait HasRoles
     public function roles(): BelongsToMany
     {
         return $this->morphToMany(
-            config('permission.models.role'),
+            config('models.role'),
             'model',
-            config('permission.table_names.model_has_roles'),
-            config('permission.column_names.model_morph_key'),
+            config('table_names.model_has_roles'),
+            config('column_names.model_morph_key'),
             'role_id'
         );
     }
@@ -79,7 +79,7 @@ trait HasRoles
         }, $roles);
 
         return $query->whereHas('roles', function (Builder $subQuery) use ($roles) {
-            $subQuery->whereIn(config('permission.table_names.roles').'.id', \array_column($roles, 'id'));
+            $subQuery->whereIn(config('table_names.roles').'.id', \array_column($roles, 'id'));
         });
     }
 

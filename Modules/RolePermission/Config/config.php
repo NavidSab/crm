@@ -1,4 +1,6 @@
 <?php
+use Modules\RolePermission\Entities\RolePermission;
+use Modules\RolePermission\Entities\Role;
 
 return [
 
@@ -14,7 +16,7 @@ return [
          * `Spatie\Permission\Contracts\Permission` contract.
          */
 
-        'permission' => Modules\RolePermission\Entities\RolePermission::class,
+        'permission' => RolePermission::class,
 
         /*
          * When using the "HasRoles" trait from this package, we need to know which
@@ -25,7 +27,7 @@ return [
          * `Spatie\Permission\Contracts\Role` contract.
          */
 
-        'role' => Spatie\Permission\Models\Role::class,
+        'role' => Role::class,
 
     ],
 

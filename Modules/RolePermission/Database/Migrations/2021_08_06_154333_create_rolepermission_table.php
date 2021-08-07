@@ -11,8 +11,8 @@ class CreateRolepermissionTable extends Migration
      */
     public function up()
     {
-        $tableNames = config('table_names');
-        $columnNames = config('column_names');
+        $tableNames = config('rolepermission.table_names');
+        $columnNames = config('rolepermission.column_names');
         if (empty($tableNames)) {
             throw new \Exception('Error: config/permission.php not loaded. Run [php artisan config:clear] and try again.');
         }
@@ -68,8 +68,8 @@ class CreateRolepermissionTable extends Migration
             $table->primary(['permission_id', 'role_id'], 'role_has_permissions_permission_id_role_id_primary');
         });
         app('cache')
-            ->store(config('permission.cache.store') != 'default' ? config('permission.cache.store') : null)
-            ->forget(config('permission.cache.key'));
+            ->store(config('rolepermission.cache.store') != 'default' ? config('rolepermission.cache.store') : null)
+            ->forget(config('rolepermission.cache.key'));
     }
     /**
      * Reverse the migrations.
@@ -78,7 +78,7 @@ class CreateRolepermissionTable extends Migration
      */
     public function down()
     {
-        $tableNames = config('permission.table_names');
+        $tableNames = config('rolepermission.table_names');
         if (empty($tableNames)) {
             throw new \Exception('Error: config/permission.php not found and defaults could not be merged. Please publish the package configuration before proceeding, or drop the tables manually.');
         }

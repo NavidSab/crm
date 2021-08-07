@@ -1,17 +1,17 @@
 <?php
 
-namespace Spatie\Permission\Models;
+namespace Modules\RolePermission\Entities;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Spatie\Permission\Contracts\Permission as PermissionContract;
-use Spatie\Permission\Exceptions\PermissionAlreadyExists;
-use Spatie\Permission\Exceptions\PermissionDoesNotExist;
-use Spatie\Permission\Guard;
-use Spatie\Permission\PermissionRegistrar;
-use Spatie\Permission\Traits\HasRoles;
-use Spatie\Permission\Traits\RefreshesPermissionCache;
+use  Modules\RolePermission\Http\Contracts\Permission as PermissionContract;
+use  Modules\RolePermission\Exceptions\PermissionAlreadyExists;
+use  Modules\RolePermission\Exceptions\PermissionDoesNotExist;
+use  Modules\RolePermission\Services\Guard;
+use Modules\RolePermission\Services\PermissionRegistrar;
+use Modules\RolePermission\Http\Traits\HasRoles;
+use Modules\RolePermission\Http\Traits\RefreshesPermissionCache;
 
 class Permission extends Model implements PermissionContract
 {
@@ -29,7 +29,7 @@ class Permission extends Model implements PermissionContract
 
     public function getTable()
     {
-        return config('permission.table_names.permissions', parent::getTable());
+        return config('table_names.permissions', parent::getTable());
     }
 
     public static function create(array $attributes = [])
@@ -51,8 +51,8 @@ class Permission extends Model implements PermissionContract
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(
-            config('permission.models.role'),
-            config('permission.table_names.role_has_permissions'),
+            config('models.role'),
+            config('table_names.role_has_permissions'),
             'permission_id',
             'role_id'
         );
@@ -66,9 +66,9 @@ class Permission extends Model implements PermissionContract
         return $this->morphedByMany(
             getModelForGuard($this->attributes['guard_name']),
             'model',
-            config('permission.table_names.model_has_permissions'),
+            config('table_names.model_has_permissions'),
             'permission_id',
-            config('permission.column_names.model_morph_key')
+            config('column_names.model_morph_key')
         );
     }
 

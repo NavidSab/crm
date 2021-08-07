@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\Permission\Commands;
+namespace Modules\RolePermission\Console\Commands;
 
 use Illuminate\Console\Command;
-use Spatie\Permission\Contracts\Permission as PermissionContract;
-use Spatie\Permission\Contracts\Role as RoleContract;
+use Modules\RolePermission\Http\Contracts\Permission as PermissionContract;
+use Modules\RolePermission\Http\Contracts\Role as RoleContract;
 
 class CreateRole extends Command
 {

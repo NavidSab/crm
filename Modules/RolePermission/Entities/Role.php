@@ -1,16 +1,16 @@
 <?php
 
-namespace Spatie\Permission\Models;
+namespace Modules\RolePermission\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Spatie\Permission\Contracts\Role as RoleContract;
-use Spatie\Permission\Exceptions\GuardDoesNotMatch;
-use Spatie\Permission\Exceptions\RoleAlreadyExists;
-use Spatie\Permission\Exceptions\RoleDoesNotExist;
-use Spatie\Permission\Guard;
-use Spatie\Permission\Traits\HasPermissions;
-use Spatie\Permission\Traits\RefreshesPermissionCache;
+use  Modules\RolePermission\Http\Contracts\Role as RoleContract;
+use  Modules\RolePermission\Exceptions\GuardDoesNotMatch;
+use  Modules\RolePermission\Exceptions\RoleAlreadyExists;
+use  Modules\RolePermission\Exceptions\RoleDoesNotExist;
+use  Modules\RolePermission\Services\Guard;
+use  Modules\RolePermission\Http\Traits\HasPermissions;
+use Modules\RolePermission\Http\Traits\RefreshesPermissionCache;
 
 class Role extends Model implements RoleContract
 {
@@ -28,7 +28,7 @@ class Role extends Model implements RoleContract
 
     public function getTable()
     {
-        return config('permission.table_names.roles', parent::getTable());
+        return config('table_names.roles', parent::getTable());
     }
 
     public static function create(array $attributes = [])
@@ -48,8 +48,8 @@ class Role extends Model implements RoleContract
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(
-            config('permission.models.permission'),
-            config('permission.table_names.role_has_permissions'),
+            config('models.permission'),
+            config('table_names.role_has_permissions'),
             'role_id',
             'permission_id'
         );
@@ -63,9 +63,9 @@ class Role extends Model implements RoleContract
         return $this->morphedByMany(
             getModelForGuard($this->attributes['guard_name']),
             'model',
-            config('permission.table_names.model_has_roles'),
+            config('table_names.model_has_roles'),
             'role_id',
-            config('permission.column_names.model_morph_key')
+            config('column_names.model_morph_key')
         );
     }
 
@@ -137,7 +137,7 @@ class Role extends Model implements RoleContract
      */
     public function hasPermissionTo($permission): bool
     {
-        if (config('permission.enable_wildcard_permission', false)) {
+        if (config('enable_wildcard_permission', false)) {
             return $this->hasWildcardPermission($permission, $this->getDefaultGuardName());
         }
 

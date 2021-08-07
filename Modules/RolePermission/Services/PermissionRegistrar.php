@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\Permission;
+namespace Modules\RolePermission\Services;
 
 use Illuminate\Cache\CacheManager;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Database\Eloquent\Collection;
-use Spatie\Permission\Contracts\Permission;
-use Spatie\Permission\Contracts\Role;
+use Modules\RolePermission\Http\Contracts\Permission;
+use Modules\RolePermission\Http\Contracts\Role;
 
 class PermissionRegistrar
 {
@@ -42,8 +42,8 @@ class PermissionRegistrar
      */
     public function __construct(CacheManager $cacheManager)
     {
-        $this->permissionClass = config('permission.models.permission');
-        $this->roleClass = config('permission.models.role');
+        $this->permissionClass = config('models.permission');
+        $this->roleClass = config('models.role');
 
         $this->cacheManager = $cacheManager;
         $this->initializeCache();
@@ -51,10 +51,10 @@ class PermissionRegistrar
 
     public function initializeCache()
     {
-        self::$cacheExpirationTime = config('permission.cache.expiration_time', config('permission.cache_expiration_time'));
+        self::$cacheExpirationTime = config('cache.expiration_time', config('cache_expiration_time'));
 
-        self::$cacheKey = config('permission.cache.key');
-        self::$cacheModelKey = config('permission.cache.model_key');
+        self::$cacheKey = config('cache.key');
+        self::$cacheModelKey = config('cache.model_key');
 
         $this->cache = $this->getCacheStoreFromConfig();
     }
@@ -62,7 +62,7 @@ class PermissionRegistrar
     protected function getCacheStoreFromConfig(): \Illuminate\Contracts\Cache\Repository
     {
         // the 'default' fallback here is from the permission.php config file, where 'default' means to use config(cache.default)
-        $cacheDriver = config('permission.cache.store', 'default');
+        $cacheDriver = config('cache.store', 'default');
 
         // when 'default' is specified, no action is required since we already have the default instance
         if ($cacheDriver === 'default') {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Permission\Contracts;
+namespace Modules\RolePermission\Http\Contracts;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 

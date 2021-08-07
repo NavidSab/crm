@@ -1,17 +1,17 @@
 <?php
 
-namespace Spatie\Permission\Traits;
-
+namespace Modules\RolePermission\Http\Traits;
+use Modules\RolePermission\Exceptions;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
-use Spatie\Permission\Contracts\Permission;
-use Spatie\Permission\Exceptions\GuardDoesNotMatch;
-use Spatie\Permission\Exceptions\PermissionDoesNotExist;
-use Spatie\Permission\Exceptions\WildcardPermissionInvalidArgument;
-use Spatie\Permission\Guard;
-use Spatie\Permission\PermissionRegistrar;
-use Spatie\Permission\WildcardPermission;
+use Modules\RolePermission\Http\Contracts\Permission;
+use Modules\RolePermission\Exceptions\GuardDoesNotMatch;
+use Modules\RolePermission\Exceptions\PermissionDoesNotExist;
+use Modules\RolePermission\Exceptions\WildcardPermissionInvalidArgument;
+use Modules\RolePermission\Services\Guard;
+use Modules\RolePermission\Services\PermissionRegistrar;
+use Modules\RolePermission\Services\WildcardPermission;
 
 trait HasPermissions
 {
@@ -43,10 +43,10 @@ trait HasPermissions
     public function permissions(): BelongsToMany
     {
         return $this->morphToMany(
-            config('permission.models.permission'),
+            config('models.permission'),
             'model',
-            config('permission.table_names.model_has_permissions'),
-            config('permission.column_names.model_morph_key'),
+            config('table_names.model_has_permissions'),
+            config('column_names.model_morph_key'),
             'permission_id'
         );
     }
@@ -69,11 +69,11 @@ trait HasPermissions
 
         return $query->where(function (Builder $query) use ($permissions, $rolesWithPermissions) {
             $query->whereHas('permissions', function (Builder $subQuery) use ($permissions) {
-                $subQuery->whereIn(config('permission.table_names.permissions').'.id', \array_column($permissions, 'id'));
+                $subQuery->whereIn(config('table_names.permissions').'.id', \array_column($permissions, 'id'));
             });
             if (count($rolesWithPermissions) > 0) {
                 $query->orWhereHas('roles', function (Builder $subQuery) use ($rolesWithPermissions) {
-                    $subQuery->whereIn(config('permission.table_names.roles').'.id', \array_column($rolesWithPermissions, 'id'));
+                    $subQuery->whereIn(config('table_names.roles').'.id', \array_column($rolesWithPermissions, 'id'));
                 });
             }
         });
@@ -112,7 +112,7 @@ trait HasPermissions
      */
     public function hasPermissionTo($permission, $guardName = null): bool
     {
-        if (config('permission.enable_wildcard_permission', false)) {
+        if (config('enable_wildcard_permission', false)) {
             return $this->hasWildcardPermission($permission, $guardName);
         }
 

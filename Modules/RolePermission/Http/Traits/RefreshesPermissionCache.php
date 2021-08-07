@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\Permission\Traits;
+namespace Modules\RolePermission\Http\Traits;
 
-use Spatie\Permission\PermissionRegistrar;
+use Modules\RolePermission\Services\PermissionRegistrar;
 
 trait RefreshesPermissionCache
 {

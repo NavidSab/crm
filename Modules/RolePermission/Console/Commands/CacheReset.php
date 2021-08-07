@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Permission\Commands;
+namespace Modules\RolePermission\Console\Commands;
 
 use Illuminate\Console\Command;
-use Spatie\Permission\PermissionRegistrar;
+use Modules\RolePermission\Services\PermissionRegistrar;
 
 class CacheReset extends Command
 {

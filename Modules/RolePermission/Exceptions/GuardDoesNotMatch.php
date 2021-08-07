@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Permission\Exceptions;
+namespace Modules\RolePermission\Exceptions;
 
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
