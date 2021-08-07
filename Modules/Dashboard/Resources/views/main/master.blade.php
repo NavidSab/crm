@@ -6,13 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Dashboard | King Graphics</title>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <link href="assets/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
-    <link href="assets/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
-    <link href="assets/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/css/master.css" rel="stylesheet">
-    <link href="assets/vendor/chartsjs/Chart.min.css" rel="stylesheet">
-    <link href="assets/vendor/flagiconcss/css/flag-icon.min.css" rel="stylesheet">
+    <!--<link href="{{Module::asset('dashboard:vendor/fontawesome/css/fontawesome.min.css') }}" rel="stylesheet">-->
+    <!--<link href="{{Module::asset('dashboard:vendor/fontawesome/css/solid.min.css') }}" rel="stylesheet">-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+
+    <link href="{{Module::asset('dashboard:vendor/fontawesome/css/brands.min.css') }}" rel="stylesheet">
+    <link href="{{Module::asset('dashboard:vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{Module::asset('dashboard:vendor/chartsjs/Chart.min.css') }}" rel="stylesheet">
+    <link href="{{Module::asset('dashboard:css/master.css') }}" rel="stylesheet">
+    <link href="{{Module::asset('dashboard:css/navbar/navbar-dropdowns.css') }}" rel="stylesheet">
+    <link href="{{Module::asset('dashboard:css/sidebar/sidebar-default.css') }}" rel="stylesheet">    
+    <link href="{{Module::asset('dashboard:vendor/flagiconcss/css/flag-icon.min.css') }}" rel="stylesheet">
     @yield('css')
 </head>
 <body>
@@ -43,11 +47,11 @@
         </div>
     </div>
     <div loading_overlay style="display:none"><span loading_text></span></div>
-    <script src="assets/vendor/jquery/jquery.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/datatables/datatables.min.js"></script>
-    <script src="assets/js/initiate-datatables.js"></script>
-    <script src="assets/js/script.js"></script>
+    <script src="{{Module::asset('dashboard:vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{Module::asset('dashboard:vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{Module::asset('dashboard:vendor/datatables/datatables.min.js') }}"></script>
+    <script src="{{Module::asset('dashboard:js/initiate-datatables.js') }}"></script>
+    <script src="{{Module::asset('dashboard:js/script.js') }}"></script>
     @yield('script')
 </body>
 </html>
