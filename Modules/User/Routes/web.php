@@ -12,5 +12,13 @@
 */
 
 Route::prefix('user')->group(function() {
-    Route::get('/', 'UserController@index')->name('user');
+    Route::get('/', 'RolePermissionController@index')->name('user');
+    Route::get('/{id}', 'RolePermissionController@show')->name('user.show');
+    Route::get('/create', 'RolePermissionController@create')->name('user.create');
+    Route::get('/{id}/edit', 'RolePermissionController@store')->name('user.edit');
+    Route::post('/', 'RolePermissionController@store')->name('user.store');
+    Route::delete('/{id}', 'RolePermissionController@destroy')->name('user.destroy');
+    Route::put('/update', 'RolePermissionController@update')->name('user.update');
 });
+
+
