@@ -23,7 +23,6 @@ trait HasPermissions
             if (method_exists($model, 'isForceDeleting') && ! $model->isForceDeleting()) {
                 return;
             }
-
             $model->permissions()->detach();
         });
     }
@@ -43,10 +42,10 @@ trait HasPermissions
     public function permissions(): BelongsToMany
     {
         return $this->morphToMany(
-            config('models.permission'),
+            config('rolepermission.models.permission'),
             'model',
-            config('table_names.model_has_permissions'),
-            config('column_names.model_morph_key'),
+            config('rolepermission.table_names.model_has_permissions'),
+            config('rolepermission.column_names.model_morph_key'),
             'permission_id'
         );
     }
@@ -69,11 +68,11 @@ trait HasPermissions
 
         return $query->where(function (Builder $query) use ($permissions, $rolesWithPermissions) {
             $query->whereHas('permissions', function (Builder $subQuery) use ($permissions) {
-                $subQuery->whereIn(config('table_names.permissions').'.id', \array_column($permissions, 'id'));
+                $subQuery->whereIn(config('rolepermission.table_names.permissions').'.id', \array_column($permissions, 'id'));
             });
             if (count($rolesWithPermissions) > 0) {
                 $query->orWhereHas('roles', function (Builder $subQuery) use ($rolesWithPermissions) {
-                    $subQuery->whereIn(config('table_names.roles').'.id', \array_column($rolesWithPermissions, 'id'));
+                    $subQuery->whereIn(config('rolepermission.table_names.roles').'.id', \array_column($rolesWithPermissions, 'id'));
                 });
             }
         });
@@ -112,7 +111,7 @@ trait HasPermissions
      */
     public function hasPermissionTo($permission, $guardName = null): bool
     {
-        if (config('enable_wildcard_permission', false)) {
+        if (config('rolepermission.enable_wildcard_permission', false)) {
             return $this->hasWildcardPermission($permission, $guardName);
         }
 

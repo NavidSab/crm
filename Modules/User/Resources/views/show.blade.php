@@ -1,12 +1,13 @@
 @extends('dashboard::main.master')
 @section('content')
+<div class=" container card">
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
             <h2> Show User</h2>
         </div>
         <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
+            <a class="btn btn-primary" href="{{ route('user') }}"> Back</a>
         </div>
     </div>
 </div>
@@ -33,5 +34,6 @@
             @endif
         </div>
     </div>
+</div>
 </div>
 @endsection

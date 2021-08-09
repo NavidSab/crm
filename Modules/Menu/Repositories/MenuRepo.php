@@ -1,25 +1,25 @@
 <?php
-namespace Modules\User\Repositories;
-use Modules\User\Entities\User;
+namespace Modules\Menu\Repositories;
+use Modules\Menu\Entities\Menu;
 use Illuminate\Support\Facades\Hash;
-class UserRepo
+class MenuRepo
 {
 
     public function getAll()
     {
-        return User::orderBy('id','DESC')->paginate(5);
+        return Menu::orderBy('id','DESC')->paginate(5);
     }
     public function find($id)
     {
-        return User::find($id);
+        return Menu::find($id);
     }
     public function delete($id)
     {
-        return User::find($id)->delete();
+        return Menu::find($id)->delete();
     }
     public function store($request)
     {
-        return User::create([
+        return Menu::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),

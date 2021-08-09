@@ -1,12 +1,13 @@
-@extends('dashboard:main.master')
+@extends('dashboard::main.master')
 @section('content')
+<div class=" container card">
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
             <h2>Users Management</h2>
         </div>
         <div class="pull-right">
-            <a class="btn btn-success" href="{{ route('users.create') }}"> Create New User</a>
+            <a class="btn btn-success" href="{{ route('user.create') }}"> Create New User</a>
         </div>
     </div>
 </div>
@@ -36,15 +37,16 @@
       @endif
     </td>
     <td>
-       <a class="btn btn-info" href="{{ route('users.show',$user->id) }}">Show</a>
-       <a class="btn btn-primary" href="{{ route('users.edit',$user->id) }}">Edit</a>
-        {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
-            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-        {!! Form::close() !!}
+       <a class="btn btn-info" href="{{ route('user.show',$user->id) }}">Show</a>
+       <a class="btn btn-primary" href="{{ route('user.edit',$user->id) }}">Edit</a>
+       <form style="display:inline" method="post" action="{{ route('user.destroy',$user->id) }}" >
+        @csrf
+        <button type="submit" class="btn btn-danger">Delete</button>
+       </form>
     </td>
   </tr>
  @endforeach
 </table>
+</div>
 {!! $data->render() !!}
-<p class="text-center text-primary"><small>Tutorial by ItSolutionStuff.com</small></p>
 @endsection

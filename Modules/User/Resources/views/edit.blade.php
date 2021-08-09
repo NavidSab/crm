@@ -1,12 +1,13 @@
 @extends('dashboard::main.master')
  @section('content')
+ <div class=" container card">
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
             <h2>Edit New User</h2>
         </div>
         <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('users.index') }}">
+            <a class="btn btn-primary" href="{{ route('user') }}">
                 Back</a>
         </div>
     </div>
@@ -21,35 +22,31 @@
         @endforeach
     </ul>
 </div>
-@endif {!! Form::model($user, ['method' => 'PATCH','route' => ['users.update',
-$user->id]]) !!}
+@endif
+<form action="{{ route('user.update',$user->id) }}" method="PATCH">
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Name:</strong>
-            {!! Form::text('name', null, array('placeholder' => 'Name','class' =>
-            'form-control')) !!}
+            <input class="form-control" type="text" name="name" placeholder="Name">
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Email:</strong>
-            {!! Form::text('email', null, array('placeholder' => 'Email','class' =>
-            'form-control')) !!}
+            <input class="form-control" type="text" name="email" placeholder="Email">
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Password:</strong>
-            {!! Form::password('password', array('placeholder' => 'Password','class' =>
-            'form-control')) !!}
+            <input class="form-control" type="password" name="password" placeholder="Password">
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Confirm Password:</strong>
-            {!! Form::password('confirm-password', array('placeholder' => 'Confirm
-            Password','class' => 'form-control')) !!}
+            <input class="form-control" type="password" name="confirm-password" placeholder="Confirm Password">
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -63,8 +60,6 @@ $user->id]]) !!}
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 </div>
-{!! Form::close() !!}
-<p class="text-center text-primary">
-    <small>Tutorial by ItSolutionStuff.com</small>
-</p>
+</form>
+</div>
 @endsection

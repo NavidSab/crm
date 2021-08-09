@@ -1,12 +1,13 @@
-@extends('dashboard:main.master')
+@extends('dashboard::main.master')
 @section('content')
+<div class=" container card">
 <div class="row">
-    <div class="col-lg-12 margin-tb">
+    <div class="col-lg-12 margin-tb ">
         <div class="pull-left">
             <h2>Create New User</h2>
         </div>
         <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
+            <a class="btn btn-primary" href="{{ route('user') }}"> Back</a>
         </div>
     </div>
 </div>
@@ -20,42 +21,47 @@
     </ul>
   </div>
 @endif
-{!! Form::open(array('route' => 'users.store','method'=>'POST')) !!}
+<form action="{{ route('user.store') }}" method="post">
+    @csrf
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Name:</strong>
-            {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+            <input type="text" placeholder="Name" class="form-control" name="name">
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Email:</strong>
-            {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
+            <input type="text" placeholder="Email" class="form-control" name="email">
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Password:</strong>
-            {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
+            <input type="password" placeholder="Password" class="form-control" name="password">
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Confirm Password:</strong>
-            {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
+            <input type="password" placeholder="Confirm Password" class="form-control" name="confirm-password">
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Role:</strong>
-            {!! Form::select('roles[]', $roles,[], array('class' => 'form-control','multiple')) !!}
+            <select name="roles[]" class="form-control" multiple>
+                @foreach ($roles as $items )
+                <option value="{{ $items->id }}">{{ $items->name }}</option>  
+                @endforeach
+            </select>
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 </div>
-{!! Form::close() !!}
-<p class="text-center text-primary"><small>Tutorial by ItSolutionStuff.com</small></p>
+</form>
+</div>
 @endsection

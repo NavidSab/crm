@@ -42,8 +42,8 @@ class PermissionRegistrar
      */
     public function __construct(CacheManager $cacheManager)
     {
-        $this->permissionClass = config('models.permission');
-        $this->roleClass = config('models.role');
+        $this->permissionClass = config('rolepermission.models.permission');
+        $this->roleClass = config('rolepermission.models.role');
 
         $this->cacheManager = $cacheManager;
         $this->initializeCache();
@@ -51,10 +51,10 @@ class PermissionRegistrar
 
     public function initializeCache()
     {
-        self::$cacheExpirationTime = config('cache.expiration_time', config('cache_expiration_time'));
+        self::$cacheExpirationTime = config('rolepermission.cache.expiration_time', config('rolepermission.cache_expiration_time'));
 
-        self::$cacheKey = config('cache.key');
-        self::$cacheModelKey = config('cache.model_key');
+        self::$cacheKey = config('rolepermission.cache.key');
+        self::$cacheModelKey = config('rolepermission.cache.model_key');
 
         $this->cache = $this->getCacheStoreFromConfig();
     }
@@ -62,7 +62,7 @@ class PermissionRegistrar
     protected function getCacheStoreFromConfig(): \Illuminate\Contracts\Cache\Repository
     {
         // the 'default' fallback here is from the permission.php config file, where 'default' means to use config(cache.default)
-        $cacheDriver = config('cache.store', 'default');
+        $cacheDriver = config('rolepermission.cache.store', 'default');
 
         // when 'default' is specified, no action is required since we already have the default instance
         if ($cacheDriver === 'default') {
@@ -70,7 +70,7 @@ class PermissionRegistrar
         }
 
         // if an undefined cache store is specified, fallback to 'array' which is Laravel's closest equiv to 'none'
-        if (! \array_key_exists($cacheDriver, config('cache.stores'))) {
+        if (! \array_key_exists($cacheDriver, config('rolepermission.cache.stores'))) {
             $cacheDriver = 'array';
         }
 

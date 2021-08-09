@@ -12,13 +12,13 @@
 */
 
 Route::prefix('user')->group(function() {
-    Route::get('/', 'RolePermissionController@index')->name('user');
-    Route::get('/{id}', 'RolePermissionController@show')->name('user.show');
-    Route::get('/create', 'RolePermissionController@create')->name('user.create');
-    Route::get('/{id}/edit', 'RolePermissionController@store')->name('user.edit');
-    Route::post('/', 'RolePermissionController@store')->name('user.store');
-    Route::delete('/{id}', 'RolePermissionController@destroy')->name('user.destroy');
-    Route::put('/update', 'RolePermissionController@update')->name('user.update');
+    Route::get('', 'UserController@index')->name('user');
+    Route::get('{id}', 'UserController@show')->name('user.show')->where('id', '[0-9]+');
+    Route::get('create', 'UserController@create')->name('user.create');
+    Route::get('{id}/edit', 'UserController@edit')->name('user.edit')->where('id', '[0-9]+');
+    Route::post('', 'UserController@store')->name('user.store');
+    Route::post('{id}/destroy', 'UserController@destroy')->name('user.destroy')->where('id', '[0-9]+');
+    Route::put('update', 'UserController@update')->name('user.update');
 });
 
 
