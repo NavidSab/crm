@@ -4,7 +4,7 @@ namespace Modules\Menu\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
-
+use Modules\Menu\KingMenu;
 class MenuServiceProvider extends ServiceProvider
 {
     /**
@@ -37,6 +37,9 @@ class MenuServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind('king-menu', function () {
+            return new KingMenu();
+        });
         $this->app->register(RouteServiceProvider::class);
     }
 

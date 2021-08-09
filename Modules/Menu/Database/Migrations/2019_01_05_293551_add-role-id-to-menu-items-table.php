@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMenuTable extends Migration
+class AddRoleIdToMenuItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,8 @@ class CreateMenuTable extends Migration
      */
     public function up()
     {
-        Schema::create('menu', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('slug');
-            $table->string('slug');
-            $table->id();
-            $table->id();
-
-            $table->timestamps();
+        Schema::table(config('menu.table_prefix') . config('menu.table_name_items'), function ($table) {
+            $table->integer('role_id')->default(0);
         });
     }
 
@@ -32,6 +25,8 @@ class CreateMenuTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('menu');
+        Schema::table(config('menu.table_prefix') . config('menu.table_name_items'), function ($table) {
+            $table->dropColumn('role_id');
+        });
     }
 }

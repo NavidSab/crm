@@ -12,12 +12,22 @@
 */
 
 Route::prefix('menu')->group(function() {
-    Route::get('', 'MenuController@index')->name('user');
-    Route::get('{id}', 'MenuController@show')->name('user.show')->where('id', '[0-9]+');
-    Route::get('create', 'MenuController@create')->name('user.create');
-    Route::get('{id}/edit', 'MenuController@edit')->name('user.edit')->where('id', '[0-9]+');
-    Route::post('', 'MenuController@store')->name('user.store');
-    Route::post('{id}/destroy', 'MenuController@destroy')->name('user.destroy')->where('id', '[0-9]+');
-    Route::put('update', 'MenuController@update')->name('user.update');
+    Route::get('/','MenuController@index')->name('menu');
+    Route::post('updateitem', 'MenuController@updateitem')->name('hupdateitem'); 
+    Route::post('addcustommenu', 'MenuController@addcustommenu')->name('haddcustommenu'); 
+    Route::post('generatemenucontrol', 'MenuController@generatemenucontrol')->name('hgeneratemenucontrol'); 
+    Route::post('deleteitemmenu', 'MenuController@deleteitemmenu')->name('hdeleteitemmenu'); 
+    Route::post('deletemenug', 'MenuController@deletemenug')->name('hdeletemenug'); 
+    Route::post('createnewmenu', 'MenuController@createnewmenu')->name('hcreatenewmenu'); 
+
 });
 
+// Route::group(['middleware' => config('menu.middleware')], function () {
+//     $path = rtrim(config('menu.route_path'));
+//     Route::post( 'menu/addcustommenu', 'MenuController@addcustommenu')->name('haddcustommenu');
+//     Route::post($path . '/deleteitemmenu', 'MenuController@deleteitemmenu')->name('hdeleteitemmenu');  
+//     Route::post($path . '/deletemenug', 'MenuController@deletemenug')->name('hdeletemenug');   
+//     Route::post($path . '/createnewmenu', 'MenuController@createnewmenu')->name('hcreatenewmenu'); 
+//     Route::post($path . '/generatemenucontrol', 'MenuController@generatemenucontrol')->name('hgeneratemenucontrol');  
+//     Route::post('menu/updateitem', 'MenuController@updateitem')->name('hupdateitem');   
+// });

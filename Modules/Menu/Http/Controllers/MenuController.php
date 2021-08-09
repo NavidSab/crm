@@ -1,113 +1,113 @@
 <?php
 
 namespace Modules\Menu\Http\Controllers;
-
-use Illuminate\Contracts\Support\Renderable;
+use Modules\Menu\Http\Facades\Menu;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Modules\Menu\Repositories\MenuRepo;
-use Modules\Menu\Http\Requests\MenuRequest;
-
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use Modules\Menu\Entities\Menus;
+use Modules\Menu\Entities\MenuItems;
 class MenuController extends Controller
 {
-    public $menuRepo;
-    public function __construct(MenuRepo $menuRepo){
-        $this->menuRepo=$menuRepo;
-        $this->middleware('auth');
-    }
-   /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
+    public function index()
     {
-        $data =$this->menuRepo->getAll();
-        return view('user::index',compact('data'))->with('i', ($request->input('page', 1) - 1) * 5);
+        return view('menu::index');
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+
+
+    public function createnewmenu()
     {
-        $roles = $this->rolepermissionrRepo->getRoles();
-            return view('user::create',compact('roles'));
+
+        $menu = new Menus();
+        $menu->name = request()->input("menuname");
+        $menu->save();
+        return json_encode(array("resp" => $menu->id));
     }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(UserRequest $request)
+
+    public function deleteitemmenu()
     {
-        $user = $this->menuRepo->store($request);
-        $user->assignRole($request->input('roles'));
-        return redirect()->route('index')->with('success','User created successfully');
+        $menuitem = MenuItems::find(request()->input("id"));
+
+        $menuitem->delete();
     }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+    public function deletemenug()
     {
-        $user = $this->menuRepo->find($id);
-        return view('user::show',compact('user'));
+        $menus = new MenuItems();
+        $getall = $menus->getall(request()->input("id"));
+        if (count($getall) == 0) {
+            $menudelete = Menus::find(request()->input("id"));
+            $menudelete->delete();
+
+            return json_encode(array("resp" => "you delete this item"));
+        } else {
+            return json_encode(array("resp" => "You have to delete all items first", "error" => 1));
+
+        }
     }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+
+    public function updateitem()
     {
-        $user = $this->menuRepo->find($id);
-        $roles = $this->rolepermissionrRepo->getRoles();
-        $userRole = $user->roles->pluck('name','name')->all();
-        return view('user::edit',compact('user','roles','userRole'));
+        $arraydata = request()->input("arraydata");
+        if (is_array($arraydata)) {
+            foreach ($arraydata as $value) {
+                $menuitem = MenuItems::find($value['id']);
+                $menuitem->label = $value['label'];
+                $menuitem->link = $value['link'];
+                $menuitem->class = $value['class'];
+                if (config('menu.use_roles')) {
+                    $menuitem->role_id = $value['role_id'] ? $value['role_id'] : 0 ;
+                }
+                $menuitem->save();
+            }
+        } else {
+            $menuitem = MenuItems::find(request()->input("id"));
+            $menuitem->label = request()->input("label");
+            $menuitem->link = request()->input("url");
+            $menuitem->class = request()->input("clases");
+            if (config('menu.use_roles')) {
+                $menuitem->role_id = request()->input("role_id") ? request()->input("role_id") : 0 ;
+            }
+            $menuitem->save();
+        }
     }
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    // public function update(Request $request, $id)
-    // {
-    //     $this->validate($request, [
-    //         'name' => 'required',
-    //         'email' => 'required|email|unique:users,email,'.$id,
-    //         'password' => 'same:confirm-password',
-    //         'roles' => 'required'
-    //     ]);
-    //     $input = $request->all();
-    //     if(!empty($input['password'])){ 
-    //         $input['password'] = Hash::make($input['password']);
-    //     }else{
-    //         $input = Arr::except($input,array('password'));    
-    //     }
-    //     $user = $this->menuRepo->find($id);
-    //     $user->update($input);
-    //     DB::table('model_has_roles')->where('model_id',$id)->delete();
-    //     $user->assignRole($request->input('roles'));
-    //     return redirect()->route('users.index')
-    //                     ->with('success','User updated successfully');
-    // }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+
+    public function addcustommenu()
     {
-        $this->menuRepo->delete($id);
-        return redirect()->route('user')->with('success','User deleted successfully');
+
+        $menuitem = new MenuItems();
+        $menuitem->label = request()->input("labelmenu");
+        $menuitem->link = request()->input("linkmenu");
+        if (config('menu.use_roles')) {
+            $menuitem->role_id = request()->input("rolemenu") ? request()->input("rolemenu")  : 0 ;
+        }
+        $menuitem->menu = request()->input("idmenu");
+        $menuitem->sort = MenuItems::getNextSortRoot(request()->input("idmenu"));
+        $menuitem->save();
+
+    }
+
+    public function generatemenucontrol()
+    {
+        $menu = Menus::find(request()->input("idmenu"));
+        $menu->name = request()->input("menuname");
+
+        $menu->save();
+        if (is_array(request()->input("arraydata"))) {
+            foreach (request()->input("arraydata") as $value) {
+
+                $menuitem = MenuItems::find($value["id"]);
+                $menuitem->parent = $value["parent"];
+                $menuitem->sort = $value["sort"];
+                $menuitem->depth = $value["depth"];
+                if (config('menu.use_roles')) {
+                    $menuitem->role_id = request()->input("role_id");
+                }
+                $menuitem->save();
+            }
+        }
+        echo json_encode(array("resp" => 1));
+
     }
 }
