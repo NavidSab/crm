@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 class LoginController extends Controller
 {
-    public function _construct(){
+    public function __construct(){
         $this->middleware('guest');
     }
     public function index()
