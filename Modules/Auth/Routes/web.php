@@ -12,9 +12,9 @@
 */
 
 Route::prefix('auth')->group(function() {
-    Route::get('/login', 'LoginController@index')->name('login');
-    Route::post('/login', 'LoginController@login')->name('post.login');
-    Route::get('/register', 'RegisterController@index')->name('register');
-    Route::post('/register', 'RegisterController@create')->name('post.register');
-    Route::post('/logout', 'LoginController@logout')->name('logout');
+    Route::get('login', 'LoginController@index')->name('login');
+    Route::post('login', 'LoginController@login')->name('post.login');
+    Route::get('register', 'RegisterController@index')->name('register');
+    Route::post('register', 'RegisterController@create')->name('post.register');
+    Route::post('logout', 'LogoutController@logout')->name('logout');
 });

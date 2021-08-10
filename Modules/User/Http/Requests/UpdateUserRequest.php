@@ -4,7 +4,7 @@ namespace Modules\User\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -16,8 +16,7 @@ class UserRequest extends FormRequest
         return [
                 'name'     => 'required',
                 'email'    => 'required|email|unique:users,email',
-                'password' => 'required|same:confirm-password',
-                'roles'    => 'required'
+                'password' => 'sometimes|same:confirm-password',
         ];
     }
 

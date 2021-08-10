@@ -1,12 +1,13 @@
-@extends('dashboard:main.master')
+@extends('dashboard::main.master')
 @section('content')
+<div class="container">
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
             <h2>Create New Role</h2>
         </div>
         <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('roles.index') }}"> Back</a>
+            <a class="btn btn-primary" href="{{ route('rolepermission') }}"> Back</a>
         </div>
     </div>
 </div>
@@ -20,7 +21,7 @@
         </ul>
     </div>
 @endif
-{!! Form::open(array('route' => 'roles.store','method'=>'POST')) !!}
+{!! Form::open(array('route' => 'rolepermission.store','method'=>'POST')) !!}
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
@@ -44,5 +45,5 @@
     </div>
 </div>
 {!! Form::close() !!}
-<p class="text-center text-primary"><small>Tutorial by ItSolutionStuff.com</small></p>
 @endsection
+</div>

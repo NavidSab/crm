@@ -1,10 +1,9 @@
 <?php
-
 namespace Modules\User\Database\Seeders;
-
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
-
+use Modules\User\Entities\User;
+use Modules\RolePermission\Entities\Role;
+use Modules\RolePermission\Entities\Permission;
 class UserDatabaseSeeder extends Seeder
 {
     /**
@@ -14,8 +13,14 @@ class UserDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Model::unguard();
-
-        // $this->call("OthersTableSeeder");
+        $user = User::create([
+            'name' => 'King Kraphics', 
+            'email' => 'admin@king.graphic',
+            'password' => bcrypt('12345678')
+        ]);
+        $role = Role::create(['name' => 'Admin']);
+        $permissions = Permission::pluck('id','id')->all();
+        $role->syncPermissions($permissions);
+        $user->assignRole([$role->id]);
     }
 }

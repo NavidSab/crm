@@ -21,14 +21,14 @@ class Role extends Model implements RoleContract
 
     public function __construct(array $attributes = [])
     {
-        $attributes['guard_name'] = $attributes['guard_name'] ?? config('auth.defaults.guard');
+        $attributes['guard_name'] = $attributes['guard_name'] ?? config('rolepermission.auth.defaults.guard');
 
         parent::__construct($attributes);
     }
 
     public function getTable()
     {
-        return config('table_names.roles', parent::getTable());
+        return config('rolepermission.table_names.roles', parent::getTable());
     }
 
     public static function create(array $attributes = [])
@@ -48,8 +48,8 @@ class Role extends Model implements RoleContract
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(
-            config('models.permission'),
-            config('table_names.role_has_permissions'),
+            config('rolepermission.models.permission'),
+            config('rolepermission.table_names.role_has_permissions'),
             'role_id',
             'permission_id'
         );
@@ -63,21 +63,14 @@ class Role extends Model implements RoleContract
         return $this->morphedByMany(
             getModelForGuard($this->attributes['guard_name']),
             'model',
-            config('table_names.model_has_roles'),
+            config('rolepermission.table_names.model_has_roles'),
             'role_id',
-            config('column_names.model_morph_key')
+            config('rolepermission.column_names.model_morph_key')
         );
     }
 
     /**
      * Find a role by its name and guard name.
-     *
-     * @param string $name
-     * @param string|null $guardName
-     *
-     * @return \Spatie\Permission\Contracts\Role|\Spatie\Permission\Models\Role
-     *
-     * @throws \Spatie\Permission\Exceptions\RoleDoesNotExist
      */
     public static function findByName(string $name, $guardName = null): RoleContract
     {
@@ -108,10 +101,6 @@ class Role extends Model implements RoleContract
     /**
      * Find or create role by its name (and optionally guardName).
      *
-     * @param string $name
-     * @param string|null $guardName
-     *
-     * @return \Spatie\Permission\Contracts\Role
      */
     public static function findOrCreate(string $name, $guardName = null): RoleContract
     {
@@ -128,16 +117,10 @@ class Role extends Model implements RoleContract
 
     /**
      * Determine if the user may perform the given permission.
-     *
-     * @param string|Permission $permission
-     *
-     * @return bool
-     *
-     * @throws \Spatie\Permission\Exceptions\GuardDoesNotMatch
      */
     public function hasPermissionTo($permission): bool
     {
-        if (config('enable_wildcard_permission', false)) {
+        if (config('rolepermission.enable_wildcard_permission', false)) {
             return $this->hasWildcardPermission($permission, $this->getDefaultGuardName());
         }
 

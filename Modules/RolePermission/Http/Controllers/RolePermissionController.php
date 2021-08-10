@@ -1,135 +1,63 @@
 <?php
-
 namespace Modules\RolePermission\Http\Controllers;
-
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-
+use Modules\RolePermission\Repositories\RolePermissionRepo;
+use Modules\RolePermission\Http\Requests\RoleRequest;
+use DB;
 class RolePermissionController extends Controller
 {
 
- /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    function __construct()
+    public $rolePermissionsRepo;
+    public function __construct(RolePermissionRepo $rolePermissionsRepo)
     {
-         $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
-         $this->middleware('permission:role-create', ['only' => ['create','store']]);
-         $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+        $this->rolePermissionsRepo=$rolePermissionsRepo;
+        //  $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+        //  $this->middleware('permission:role-create', ['only' => ['create','store']]);
+        //  $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
+        //  $this->middleware('permission:role-delete', ['only' => ['destroy']]);
     }
-    
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
-        $roles = Role::orderBy('id','DESC')->paginate(5);
-        return view('roles.index',compact('roles'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+        $roles = $this->rolePermissionsRepo->getOrderBy();
+        return view('rolepermission::index',compact('roles'))->with('i', ($request->input('page', 1) - 1) * 5);
     }
-    
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        $permission = Permission::get();
-        return view('roles.create',compact('permission'));
+        $permission = $this->rolePermissionsRepo->getAllPermission();
+        return view('rolepermission::create',compact('permission'));
     }
-    
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required|unique:roles,name',
-            'permission' => 'required',
-        ]);
-    
-        $role = Role::create(['name' => $request->input('name')]);
+        $role =  $this->rolePermissionsRepo->store($request);
         $role->syncPermissions($request->input('permission'));
-    
-        return redirect()->route('roles.index')
-                        ->with('success','Role created successfully');
+        return redirect()->route('rolepermission')->with('success','Role created successfully');
     }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        $role = Role::find($id);
-        $rolePermissions = Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
-            ->where("role_has_permissions.role_id",$id)
-            ->get();
-    
-        return view('roles.show',compact('role','rolePermissions'));
+        $role =$this->rolePermissionsRepo->getById($id);
+        $rolePermissions =$this->rolePermissionsRepo->getWithJoin($id); 
+        return view('rolepermission::show',compact('role','rolePermissions'));
     }
-    
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $role = Role::find($id);
-        $permission = Permission::get();
+        $role =$this->rolePermissionsRepo->getById($id);
+        $permission =$this->rolePermissionsRepo->getAllPermission();
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
             ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
             ->all();
-    
-        return view('roles.edit',compact('role','permission','rolePermissions'));
+        return view('rolepermission::edit',compact('role','permission','rolePermissions'));
     }
-    
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(RoleRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'permission' => 'required',
-        ]);
-    
-        $role = Role::find($id);
-        $role->name = $request->input('name');
-        $role->save();
-    
+        $role = $this->rolePermissionsRepo->update($request);
         $role->syncPermissions($request->input('permission'));
-    
-        return redirect()->route('roles.index')
-                        ->with('success','Role updated successfully');
+        return redirect()->route('rolepermission')->with('success','Role updated successfully');
     }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        DB::table("roles")->where('id',$id)->delete();
-        return redirect()->route('roles.index')
-                        ->with('success','Role deleted successfully');
+        $this->rolePermissionsRepo->delete($id); 
+        return redirect()->route('rolepermission') ->with('success','Role deleted successfully');
     }
 }

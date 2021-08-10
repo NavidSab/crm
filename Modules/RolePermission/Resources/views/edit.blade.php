@@ -1,12 +1,13 @@
-@extends('dashboard:main.master')
+@extends('dashboard::main.master')
 @section('content')
+<div class="container">
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
             <h2>Edit Role</h2>
         </div>
         <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('roles.index') }}"> Back</a>
+            <a class="btn btn-primary" href="{{ route('rolepermission') }}"> Back</a>
         </div>
     </div>
 </div>
@@ -20,7 +21,9 @@
         </ul>
     </div>
 @endif
-{!! Form::model($role, ['method' => 'PATCH','route' => ['roles.update', $role->id]]) !!}
+<form action="{{ route('rolepermission.update') }}" method="post">
+ @csrf
+<input type="hidden" name="role_id" value="{{ $role->id }}">
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
@@ -43,6 +46,6 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 </div>
-{!! Form::close() !!}
+</form>
 @endsection
-<p class="text-center text-primary"><small>Tutorial by ItSolutionStuff.com</small></p>
+</div>

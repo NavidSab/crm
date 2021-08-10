@@ -23,12 +23,14 @@
     </ul>
 </div>
 @endif
-<form action="{{ route('user.update',$user->id) }}" method="PATCH">
+<form action="{{ route('user.update') }}" method="post">
+    @csrf
+    <input type="hidden" name="user_id" value="{{ $user->id }}">
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Name:</strong>
-            <input class="form-control" type="text" name="name" placeholder="Name">
+            <input class="form-control" type="text" name="name" placeholder="Name" >
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -52,8 +54,11 @@
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Role:</strong>
-            {!! Form::select('roles[]', $roles,$userRole, array('class' =>
-            'form-control','multiple')) !!}
+             <select name="roles[]" class="form-control" multiple>
+                  @foreach ($roles as $items )
+                    <option value="{{ $items->id }}" >{{ $items->name }}</option>  
+                  @endforeach
+             </select>
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">

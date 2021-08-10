@@ -21,9 +21,4 @@ class LoginController extends Controller
         }
         return redirect()->route('login')->with('failed','Credentials are Wrong!');
     }
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        return redirect()->route('login')->with('failed','You Are Logouted!');
-    }
 }

@@ -9,7 +9,7 @@ class UserRepo
     {
         return User::orderBy('id','DESC')->paginate(5);
     }
-    public function find($id)
+    public function findById($id)
     {
         return User::find($id);
     }
@@ -24,5 +24,26 @@ class UserRepo
             'email'    => $request->email,
             'password' => Hash::make($request->password),
         ]);
+    }
+    public function update($request)
+    {
+        if(!empty($request->password))
+        { 
+            $user =  User::find($request->user_id);
+            $result = tap($user)->update([
+                'name'        =>$request->name,
+                'email'       =>$request->email,
+                'password'    =>Hash::make($request->password),
+            ]);
+            return $result;
+        }
+        else{
+            $user =  User::find($request->user_id);
+            $result = tap($user)->update([
+                'name'        =>$request->name,
+                'email'       =>$request->email
+            ]);
+            return $result;
+        }
     }
 }

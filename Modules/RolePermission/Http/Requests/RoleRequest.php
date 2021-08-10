@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\User\Http\Requests;
+namespace Modules\RolePermission\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class RoleRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,10 +14,8 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-                'name'     => 'required',
-                'email'    => 'required|email|unique:users,email',
-                'password' => 'required|same:confirm-password',
-                'roles'    => 'required'
+            'name' => 'required|unique:roles,name',
+            'permission' => 'required',
         ];
     }
 
