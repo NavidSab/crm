@@ -32,12 +32,17 @@ $currentUrl = url()->current();
 															<div class="customlinkdiv" id="customlinkdiv">
 																<p id="menu-item-url-wrap">
 																	<label class="howto" for="custom-menu-item-url"> <span>URL</span>&nbsp;&nbsp;&nbsp;
-																		<input id="custom-menu-item-url" name="url" type="text" class="menu-item-textbox " placeholder="url">
+																		<input id="custom-menu-item-url" name="url" type="text" class="form-control " placeholder="url">
 																	</label>
 																</p>
 																<p id="menu-item-name-wrap">
 																	<label class="howto" for="custom-menu-item-name"> <span>Label</span>&nbsp;
-																		<input id="custom-menu-item-name" name="label" type="text" class="regular-text menu-item-textbox input-with-default-title" title="Label menu">
+																		<input id="custom-menu-item-name" name="label" type="text" class="form-control" title="Label menu">
+																	</label>
+																</p>
+																<p id="menu-item-bigmenu-wrap">
+																	<label class="" for="custom-menu-item-bigmenu"> <span>Big Menu</span>&nbsp;&nbsp;&nbsp;
+																		<input id="custom-menu-item-bigmenu" name="big_menu" type="checkbox" class="form-control" placeholder="big menu">
 																	</label>
 																</p>
 																@if(!empty($roles))
@@ -124,6 +129,18 @@ $currentUrl = url()->current();
 																		<label for="edit-menu-item-title-{{$m->id}}"> Label
 																			<br>
 																			<input type="text" id="idlabelmenu_{{$m->id}}" class="widefat edit-menu-item-title" name="idlabelmenu_{{$m->id}}" value="{{$m->label}}">
+																		</label>
+																	</p>
+																	<p class="field-css-classes description description-thin">
+																		<label for="edit-menu-item-classes-{{$m->id}}"> Big Menu
+																			<br>
+																			<input type="checkbox" id="big_menu_{{$m->id}}" class="form-control" name="big_menu_{{$m->id}}" value="{{$m->class}}">
+																		</label>
+																	</p>
+																	<p class="field-css-classes description description-thin">
+																		<label for="edit-menu-item-classes-{{$m->id}}">Image Big Menu
+																			<br>
+																			<input type="file" id="image_menu_{{$m->id}}" class="form-control" name="image_menu_{{$m->id}}" value="{{$m->class}}">
 																		</label>
 																	</p>
 																	<p class="field-css-classes description description-thin">

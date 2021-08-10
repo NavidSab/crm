@@ -30,4 +30,24 @@
                     Menu</a>
             </li>
         </ul>
+        <?php  $public_menu = Menu::getByName('king'); ?>
+        @if($public_menu)
+        <ul class="list-unstyled components text-secondary">
+            @foreach($public_menu as $menu)
+            <li >
+                <a href="{{ $menu['link'] }}" title="">{{ $menu['label'] }}</a>
+                @if( $menu['child'] )
+                <ul class="sub-menu">
+                    @foreach( $menu['child'] as $child )
+                        <li class=""><a href="{{ $child['link'] }}" title="">{{ $child['label'] }}</a></li>
+                    @endforeach
+                </ul>
+                @endif
+            </li>
+            @endforeach
+        </ul>
+        @endif
 </nav>
+
+ 
+    

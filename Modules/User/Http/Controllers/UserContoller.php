@@ -44,7 +44,7 @@ class UserController extends Controller
     {
         $user = $this->userRepo->findById($id);
         $roles = $this->rolepermissionrRepo->getRoles();
-        $userRole = $user->roles->pluck('id','name')->all();
+        $userRole = $user->roles->pluck('id')->all();
         return view('user::edit',compact('user','roles','userRole'));
     }
     public function update(UpdateUserRequest $request)

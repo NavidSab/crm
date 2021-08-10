@@ -17,7 +17,7 @@ class RegisterController extends Controller
     }
     public function create(RegisterRequest $request)
     { 
-        $check=$this->userRepo->storeUser($request);
+        $check=$this->userRepo->store($request);
         return redirect()->route('login')->with('success','Your account is created!');
     }
 }

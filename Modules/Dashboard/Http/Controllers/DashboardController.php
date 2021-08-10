@@ -4,6 +4,7 @@ namespace Modules\Dashboard\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use Modules\Menu\Http\Facades\Menu;
 use Illuminate\Routing\Controller;
 
 class DashboardController extends Controller
@@ -20,7 +21,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard::index');
+        $public_menu = Menu::getByName('king');
+        return view('dashboard::index', compact('public_menu'));
     }
 
 
