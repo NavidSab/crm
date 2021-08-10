@@ -45,6 +45,11 @@ $currentUrl = url()->current();
 																		<input id="custom-menu-item-bigmenu" name="big_menu" type="checkbox" class="form-control" placeholder="big menu">
 																	</label>
 																</p>
+																<p id="menu-item-bigmenu-wrap">
+																	<label class="" for="custom-menu-item-bigmenu"> <span> Image Big Menu</span>&nbsp;&nbsp;&nbsp;
+																		<input id="custom-menu-item-bigmenu" name="big_menu" type="file" class="form-control" placeholder="Image Big Menu">
+																	</label>
+																</p>
 																@if(!empty($roles))
 																<p id="menu-item-role_id-wrap">
 																	<label class="howto" for="custom-menu-item-name"> <span>Role</span>&nbsp;
@@ -131,18 +136,18 @@ $currentUrl = url()->current();
 																			<input type="text" id="idlabelmenu_{{$m->id}}" class="widefat edit-menu-item-title" name="idlabelmenu_{{$m->id}}" value="{{$m->label}}">
 																		</label>
 																	</p>
-																	<p class="field-css-classes description description-thin">
-																		<label for="edit-menu-item-classes-{{$m->id}}"> Big Menu
-																			<br>
-																			<input type="checkbox" id="big_menu_{{$m->id}}" class="form-control" name="big_menu_{{$m->id}}" value="{{$m->class}}">
-																		</label>
-																	</p>
-																	<p class="field-css-classes description description-thin">
-																		<label for="edit-menu-item-classes-{{$m->id}}">Image Big Menu
-																			<br>
-																			<input type="file" id="image_menu_{{$m->id}}" class="form-control" name="image_menu_{{$m->id}}" value="{{$m->class}}">
-																		</label>
-																	</p>
+																	<!--<p class="field-css-classes description description-thin">-->
+																	<!--	<label for="edit-menu-item-classes-{{$m->id}}"> Big Menu-->
+																	<!--		<br>-->
+																	<!--		<input type="checkbox" id="big_menu_{{$m->id}}" class="form-control" name="big_menu_{{$m->id}}" value="{{$m->class}}">-->
+																	<!--	</label>-->
+																	<!--</p>-->
+																	<!--<p class="field-css-classes description description-thin">-->
+																	<!--	<label for="edit-menu-item-classes-{{$m->id}}">Image Big Menu-->
+																	<!--		<br>-->
+																	<!--		<input type="file" id="image_menu_{{$m->id}}" class="form-control" name="image_menu_{{$m->id}}" value="{{$m->class}}">-->
+																	<!--	</label>-->
+																	<!--</p>-->
 																	<p class="field-css-classes description description-thin">
 																		<label for="edit-menu-item-classes-{{$m->id}}"> Class CSS (optional)
 																			<br>

@@ -4,7 +4,7 @@ namespace Modules\Menu\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
-use Modules\Menu\KingMenu;
+use Modules\Menu\Services\KingMenu;
 class MenuServiceProvider extends ServiceProvider
 {
     /**

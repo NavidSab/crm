@@ -1,113 +1,55 @@
 <?php
-
 namespace Modules\Menu\Http\Controllers;
-use Modules\Menu\Http\Facades\Menu;
 use Illuminate\Http\Request;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Modules\Menu\Entities\Menus;
 use Modules\Menu\Entities\MenuItems;
+use Modules\Menu\Repositories\MenuRepo;
+use Modules\Menu\Repositories\MenuItemsRepo;
 class MenuController extends Controller
 {
+    public $menuitemRepo,$menuRepo;
+    public function __construct(MenuRepo $menuRepo,MenuItemsRepo $menuitemRepo){
+        $this->menuitemRepo=$menuitemRepo;
+        $this->menuRepo=$menuRepo;
+        $this->middleware('auth');
+    }
     public function index()
     {
         return view('menu::index');
     }
-
-
-
-    public function createnewmenu()
+    public function createMenu(Request $request)
     {
-
-        $menu = new Menus();
-        $menu->name = request()->input("menuname");
-        $menu->save();
+        $menu=$this->menuRepo->store($request);
         return json_encode(array("resp" => $menu->id));
     }
-
-    public function deleteitemmenu()
+    public function deleteMenuItem(Request $request)
     {
-        $menuitem = MenuItems::find(request()->input("id"));
-
-        $menuitem->delete();
+        $this->menuitemRepo->delete($request->id);
     }
-
-    public function deletemenug()
+    public function deleteMenu(Request $request)
     {
-        $menus = new MenuItems();
-        $getall = $menus->getall(request()->input("id"));
+        $getall =$this->menuitemRepo->getByMenuId($request->id);
         if (count($getall) == 0) {
-            $menudelete = Menus::find(request()->input("id"));
-            $menudelete->delete();
-
+            $menudelete = $this->menuRepo->delete($request->id);
             return json_encode(array("resp" => "you delete this item"));
-        } else {
+        } 
+        else
+        {
             return json_encode(array("resp" => "You have to delete all items first", "error" => 1));
-
         }
     }
-
-    public function updateitem()
+    public function updateMenuItem(Request $request)
     {
-        $arraydata = request()->input("arraydata");
-        if (is_array($arraydata)) {
-            foreach ($arraydata as $value) {
-                $menuitem = MenuItems::find($value['id']);
-                $menuitem->label = $value['label'];
-                $menuitem->link = $value['link'];
-                $menuitem->class = $value['class'];
-                if (config('menu.use_roles')) {
-                    $menuitem->role_id = $value['role_id'] ? $value['role_id'] : 0 ;
-                }
-                $menuitem->save();
-            }
-        } else {
-            $menuitem = MenuItems::find(request()->input("id"));
-            $menuitem->label = request()->input("label");
-            $menuitem->link = request()->input("url");
-            $menuitem->class = request()->input("clases");
-            if (config('menu.use_roles')) {
-                $menuitem->role_id = request()->input("role_id") ? request()->input("role_id") : 0 ;
-            }
-            $menuitem->save();
-        }
+        $this->menuitemRepo->update($request);
     }
-
-    public function addcustommenu()
+    public function addCustomMenuItem(Request $request)
     {
-
-        $menuitem = new MenuItems();
-        $menuitem->label = request()->input("labelmenu");
-        $menuitem->link = request()->input("linkmenu");
-        if (config('menu.use_roles')) {
-            $menuitem->role_id = request()->input("rolemenu") ? request()->input("rolemenu")  : 0 ;
-        }
-        $menuitem->menu = request()->input("idmenu");
-        $menuitem->sort = MenuItems::getNextSortRoot(request()->input("idmenu"));
-        $menuitem->save();
-
+        $this->menuitemRepo->customItem($request);
     }
-
-    public function generatemenucontrol()
+    public function generateMenuControl(Request $request)
     {
-        $menu = Menus::find(request()->input("idmenu"));
-        $menu->name = request()->input("menuname");
-
-        $menu->save();
-        if (is_array(request()->input("arraydata"))) {
-            foreach (request()->input("arraydata") as $value) {
-
-                $menuitem = MenuItems::find($value["id"]);
-                $menuitem->parent = $value["parent"];
-                $menuitem->sort = $value["sort"];
-                $menuitem->depth = $value["depth"];
-                if (config('menu.use_roles')) {
-                    $menuitem->role_id = request()->input("role_id");
-                }
-                $menuitem->save();
-            }
-        }
+        $this->menuRepo->generate($request);
         echo json_encode(array("resp" => 1));
-
     }
 }
