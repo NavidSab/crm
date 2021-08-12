@@ -48,14 +48,7 @@ Notes:  decreasing heading by 0.4em with every subsequent heading level
 /*------------------------------------------------------------------
 [1. Body / #body]
 */
-@font-face {
-    font-family: "Lato";
-    font-style: normal;
-    font-weight: 400;
-    font-display: auto;
-    src: url("../font/Lato-Regular.eot");
-    src: url("../font/Lato-Regular.eot?#iefix") format("embedded-opentype"), url("../font/Lato-Regular.woff") format("woff"), url("../font/Lato-Regular.ttf") format("truetype");
-}
+
 
 body,
 h1,

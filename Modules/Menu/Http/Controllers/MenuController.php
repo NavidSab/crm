@@ -20,8 +20,9 @@ class MenuController extends Controller
     }
     public function createMenu(Request $request)
     {
+
         $menu=$this->menuRepo->store($request);
-        return json_encode(array("resp" => $menu->id));
+        return json_encode(array("data" => $menu->id));
     }
     public function deleteMenuItem(Request $request)
     {

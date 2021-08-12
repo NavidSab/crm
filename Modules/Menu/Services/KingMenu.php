@@ -4,7 +4,8 @@ use Modules\Menu\Repositories\MenuRepo;
 use Modules\Menu\Repositories\MenuItemsRepo;
 class KingMenu
 {
-    public $menuRepo,$menuitemRepo;
+    public $menuRepo;
+    public $menuitemRepo;
     public function __construct(MenuRepo $menuRepo,MenuItemsRepo $menuitemRepo ){
         $this->menuitemRepo=$menuitemRepo;
         $this->menuRepo=$menuRepo;   
@@ -46,19 +47,19 @@ class KingMenu
         $html .= '</select>';
         return $html;
     }
-    public static function getByName($name)
+    public  function getByName($name)
     {
         $menu =$this->menuRepo->getByName($name);
         return is_null($menu) ? [] : self::get($menu->id);
     }
-    public static function get($menu_id)
+    public  function get($menu_id)
     {
         $menu_list = $this->menuitemRepo->getByMenuId($menu_id);
         $roots = $this->menuitemRepo->getParentByMenuId($menu_id); 
         $items = self::tree($roots, $menu_list);
         return $items;
     }
-    private static function tree($items, $all_items)
+    private  function tree($items, $all_items)
     {
         $data_arr = array();
         $i = 0;

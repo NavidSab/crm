@@ -15,7 +15,7 @@ class MakeAclRulesTable extends Migration
     {
         Schema::create('file_manager', function (Blueprint $table) {
             $table->increments('id');
-            $table->bigInteger('user_id')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->string('disk');
             $table->string('path');
             $table->tinyInteger('access');

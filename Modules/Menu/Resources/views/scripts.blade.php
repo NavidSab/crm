@@ -12,14 +12,14 @@
         "subMenuFocus": "%1$s. Menu of subelement %2$d of %3$s."
     };
     var arraydata = [];
-    var addcustommenur = '{{ route("custommenu.create") }}';
-    var updateitemr = '{{ route("menuitem.delete")}}';
-    var generatemenucontrolr = '{{ route("generate.menucontrol") }}';
-    var deleteitemmenur = '{{ route("menuitem.delete") }}';
-    var deletemenugr = '{{ route("menu.delete") }}';
-    var createnewmenur = '{{ route("menu.create") }}';
+    var add_custom_menu = '{{ route("custommenu.create") }}';
+    var update_menu_item = '{{ route("menuitem.update")}}';
+    var generate_menu = '{{ route("generate.menucontrol") }}';
+    var delete_menu_item = '{{ route("menuitem.delete") }}';
+    var delete_menu = '{{ route("menu.delete") }}';
+    var create_menu = '{{ route("menu.create") }}';
     var csrftoken = "{{ csrf_token() }}";
-    var menuwr = "{{ url()->current() }}";
+    var currentUrl = "{{ url()->current() }}";
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': csrftoken

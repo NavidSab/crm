@@ -26,6 +26,29 @@ $currentUrl = url()->current();
 										<div id="side-sortables" class="accordion-container">
 											<ul class="outer-border">
 												<li class="control-section accordion-section  open add-page" id="add-page">
+													<h3 class="accordion-section-title hndle" tabindex="0"><i class="fa fa-cog"></i> Setting <span class="screen-reader-text">Press return or enter to expand</span></h3>
+													<div class="accordion-section-content ">
+														<div class="inside">
+															<div class="customlinkdiv" id="customlinkdiv">
+																<p id="menu-item-bigmenu-wrap">
+																	<label class="" for="custom-menu-item-bigmenu"> <span>Mega Menu</span>&nbsp;&nbsp;&nbsp;
+																		<input id="custom-menu-item-bigmenu" name="big_menu" type="checkbox" class="form-control" placeholder="big menu">
+																	</label>
+																</p>
+																<p id="menu-item-bigmenu-wrap">
+																	<label class="" for="custom-menu-item-bigmenu"> <span>Background</span>&nbsp;&nbsp;&nbsp;
+																		<input id="custom-menu-item-bigmenu" name="big_menu" type="file" class="form-control" placeholder="Image Big Menu">
+																	</label>
+																</p>
+														
+																<p class="button-controls">
+																	<a  href="#"   class="button button-primary menu-save"  >Save</a>
+																</p>
+															</div>
+														</div>
+													</div>
+												</li>
+												<li class="control-section accordion-section  open add-page" id="add-page">
 													<h3 class="accordion-section-title hndle" tabindex="0"> Custom Link <span class="screen-reader-text">Press return or enter to expand</span></h3>
 													<div class="accordion-section-content ">
 														<div class="inside">
@@ -40,16 +63,7 @@ $currentUrl = url()->current();
 																		<input id="custom-menu-item-name" name="label" type="text" class="form-control" title="Label menu">
 																	</label>
 																</p>
-																<p id="menu-item-bigmenu-wrap">
-																	<label class="" for="custom-menu-item-bigmenu"> <span>Big Menu</span>&nbsp;&nbsp;&nbsp;
-																		<input id="custom-menu-item-bigmenu" name="big_menu" type="checkbox" class="form-control" placeholder="big menu">
-																	</label>
-																</p>
-																<p id="menu-item-bigmenu-wrap">
-																	<label class="" for="custom-menu-item-bigmenu"> <span> Image Big Menu</span>&nbsp;&nbsp;&nbsp;
-																		<input id="custom-menu-item-bigmenu" name="big_menu" type="file" class="form-control" placeholder="Image Big Menu">
-																	</label>
-																</p>
+															
 																@if(!empty($roles))
 																<p id="menu-item-role_id-wrap">
 																	<label class="howto" for="custom-menu-item-name"> <span>Role</span>&nbsp;
@@ -63,7 +77,7 @@ $currentUrl = url()->current();
 																</p>
 																@endif
 																<p class="button-controls">
-																	<a  href="#" onclick="addcustommenu()"  class="button-secondary submit-add-to-menu right"  >Add menu item</a>
+																	<a  href="#" onclick="addCustomMenu()"  class="button button-primary menu-save"  >Add menu item</a>
 																	<span class="spinner" id="spincustomu"></span>
 																</p>
 															</div>
@@ -87,7 +101,7 @@ $currentUrl = url()->current();
 														</label>
 														@if(request()->has('action'))
 														<div class="publishing-action">
-															<a onclick="createnewmenu()" name="save_menu" id="save_menu_header" class="button button-primary menu-save">Create menu</a>
+															<a onclick="createMenu()" name="save_menu" id="save_menu_header" class="button button-primary menu-save">Create menu</a>
 														</div>
 														@elseif(request()->has("menu"))
 														<div class="publishing-action">
@@ -96,7 +110,7 @@ $currentUrl = url()->current();
 														</div>
 														@else
 														<div class="publishing-action">
-															<a onclick="createnewmenu()" name="save_menu" id="save_menu_header" class="button button-primary menu-save">Create menu</a>
+															<a onclick="createMenu()" name="save_menu" id="save_menu_header" class="button button-primary menu-save">Create menu</a>
 														</div>
 														@endif
 													</div>
@@ -104,6 +118,7 @@ $currentUrl = url()->current();
 												<div id="post-body">
 													<div id="post-body-content">
 														@if(request()->has("menu"))
+														
 														<h3>Menu Structure</h3>
 														<div class="drag-instructions post-body-plain" style="">
 															<p>
@@ -136,18 +151,7 @@ $currentUrl = url()->current();
 																			<input type="text" id="idlabelmenu_{{$m->id}}" class="widefat edit-menu-item-title" name="idlabelmenu_{{$m->id}}" value="{{$m->label}}">
 																		</label>
 																	</p>
-																	<!--<p class="field-css-classes description description-thin">-->
-																	<!--	<label for="edit-menu-item-classes-{{$m->id}}"> Big Menu-->
-																	<!--		<br>-->
-																	<!--		<input type="checkbox" id="big_menu_{{$m->id}}" class="form-control" name="big_menu_{{$m->id}}" value="{{$m->class}}">-->
-																	<!--	</label>-->
-																	<!--</p>-->
-																	<!--<p class="field-css-classes description description-thin">-->
-																	<!--	<label for="edit-menu-item-classes-{{$m->id}}">Image Big Menu-->
-																	<!--		<br>-->
-																	<!--		<input type="file" id="image_menu_{{$m->id}}" class="form-control" name="image_menu_{{$m->id}}" value="{{$m->class}}">-->
-																	<!--	</label>-->
-																	<!--</p>-->
+														
 																	<p class="field-css-classes description description-thin">
 																		<label for="edit-menu-item-classes-{{$m->id}}"> Class CSS (optional)
 																			<br>
@@ -197,17 +201,17 @@ $currentUrl = url()->current();
 													<div class="major-publishing-actions">
 														@if(request()->has('action'))
 														<div class="publishing-action">
-															<a onclick="createnewmenu()" name="save_menu" id="save_menu_header" class="button button-primary menu-save">Create menu</a>
+															<a onclick="createMenu()" name="save_menu" id="save_menu_header" class="button button-primary menu-save">Create menu</a>
 														</div>
 														@elseif(request()->has("menu"))
-														<span class="delete-action"> <a class="submitdelete deletion menu-delete" onclick="deletemenu()" href="javascript:void(9)">Delete menu</a> </span>
+														<span class="delete-action"> <a class="submitdelete deletion menu-delete" onclick="deleteMenu()" href="javascript:void(9)">Delete menu</a> </span>
 														<div class="publishing-action">
 															<a onclick="getmenus()" name="save_menu" id="save_menu_header" class="button button-primary menu-save">Save menu</a>
 															<span class="spinner" id="spincustomu2"></span>
 														</div>
 														@else
 														<div class="publishing-action">
-															<a onclick="createnewmenu()" name="save_menu" id="save_menu_header" class="button button-primary menu-save">Create menu</a>
+															<a onclick="createMenu()" name="save_menu" id="save_menu_header" class="button button-primary menu-save">Create menu</a>
 														</div>
 														@endif
 													</div>

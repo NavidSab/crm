@@ -18,10 +18,11 @@ class MenuRepo
     {
         return Menu::find($id)->delete();
     }
+
     public function store($request)
     {
         return Menu::create([
-            'menuname'     => $request->menuname
+            'name'     => $request->name,
         ]);
     }
     public  function getByName($name)
@@ -33,7 +34,7 @@ class MenuRepo
         return Menu::hasMany(MenuItems::class, 'menu')->with('child')->where('parent', 0)->orderBy('sort', 'ASC');
     }
     public function generate($request){
-        $menu = Menus::find($request->idmenu);
+        $menu = Menu::find($request->idmenu);
         $menu->name = $request->menuname;
         $menu->save();
         if (is_array($request->arraydata)) {
