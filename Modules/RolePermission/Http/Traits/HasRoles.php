@@ -243,6 +243,10 @@ trait HasRoles
     {
         return $this->roles->pluck('name');
     }
+    public function getRoleIds(): Collection
+    {
+        return $this->roles->pluck('id');
+    }
     protected function getStoredRole($role): Role
     {
         $roleClass = $this->getRoleClass();

@@ -20,8 +20,8 @@ class KingMenu
         else
         {
             $menu =$this->menuRepo->getById(request()->input("menu"));
-            $Menu =$this->menuitemRepo->getByMenuId(request()->input("menu"));
-            $data = ['Menu' => $Menu, 'indmenu' => $menu, 'menulist' => $menulist];
+            $MenuItem =$this->menuitemRepo->getByMenuId(request()->input("menu"));
+            $data = ['MenuItem' => $MenuItem, 'menu' => $menu, 'menulist' => $menulist];
             if( config('menu.use_roles')) {
                 $data['roles'] =$this->menuRepo->getRole(); 
                 $data['role_pk'] = config('menu.roles_pk');
@@ -50,13 +50,14 @@ class KingMenu
     public  function getByName($name)
     {
         $menu =$this->menuRepo->getByName($name);
-        return is_null($menu) ? [] : self::get($menu->id);
+        return is_null($menu) ? [] : $this->get($menu->id);
     }
     public  function get($menu_id)
     {
         $menu_list = $this->menuitemRepo->getByMenuId($menu_id);
         $roots = $this->menuitemRepo->getParentByMenuId($menu_id); 
-        $items = self::tree($roots, $menu_list);
+
+        $items = $this->tree($roots, $menu_list);
         return $items;
     }
     private  function tree($items, $all_items)
@@ -68,7 +69,7 @@ class KingMenu
             $find = $all_items->where('parent', $item->id);
             $data_arr[$i]['child'] = array();
             if ($find->count()) {
-                $data_arr[$i]['child'] = self::tree($find, $all_items);
+                $data_arr[$i]['child'] = $this->tree($find, $all_items);
             }
             $i++;
         }

@@ -7,7 +7,7 @@
             <h2> Show Role</h2>
         </div>
         <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('rolepermission') }}"> Back</a>
+            <a class="btn btn-primary" href="{{ route('role') }}"> Back</a>
         </div>
     </div>
 </div>

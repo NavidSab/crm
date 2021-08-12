@@ -46,7 +46,7 @@ class MenuController extends Controller
     }
     public function addCustomMenuItem(Request $request)
     {
-        $this->menuitemRepo->customItem($request);
+        $this->menuitemRepo->addCustomItem($request);
     }
     public function generateMenuControl(Request $request)
     {

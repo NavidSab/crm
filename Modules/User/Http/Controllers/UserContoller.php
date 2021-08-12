@@ -5,7 +5,7 @@ use Illuminate\Routing\Controller;
 use Modules\User\Repositories\UserRepo;
 use Modules\User\Http\Requests\UserRequest;
 use Modules\User\Http\Requests\UpdateUserRequest;
-use Modules\RolePermission\Repositories\RolePermissionRepo;
+use Modules\RolePermission\Repositories\RoleRepo;
 use DB;
 
 
@@ -13,10 +13,10 @@ use DB;
 class UserController extends Controller
 {
     public $userRepo;
-    public $rolepermissionrRepo;
-    public function __construct(UserRepo $userRepo,RolePermissionRepo $rolepermissionrRepo ){
+    public $roleRepo;
+    public function __construct(UserRepo $userRepo,RoleRepo $roleRepo ){
         $this->userRepo=$userRepo;
-        $this->rolepermissionrRepo=$rolepermissionrRepo;
+        $this->roleRepo=$roleRepo;
         $this->middleware('auth');
     }
     public function index(Request $request)
@@ -26,7 +26,7 @@ class UserController extends Controller
     }
     public function create()
     {
-        $roles = $this->rolepermissionrRepo->getRoles();
+        $roles = $this->roleRepo->getRoles();
             return view('user::create',compact('roles'));
     }
     public function store(UserRequest $request)
@@ -43,7 +43,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = $this->userRepo->findById($id);
-        $roles = $this->rolepermissionrRepo->getRoles();
+        $roles = $this->roleRepo->getRoles();
         $userRole = $user->roles->pluck('id')->all();
         return view('user::edit',compact('user','roles','userRole'));
     }

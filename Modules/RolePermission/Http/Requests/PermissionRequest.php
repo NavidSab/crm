@@ -4,7 +4,7 @@ namespace Modules\RolePermission\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RoleRequest extends FormRequest
+class PermissionRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,7 +15,6 @@ class RoleRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'permission' => 'required',
         ];
     }
 

@@ -34,6 +34,7 @@ class MenuRepo
         return Menu::hasMany(MenuItems::class, 'menu')->with('child')->where('parent', 0)->orderBy('sort', 'ASC');
     }
     public function generate($request){
+        die(print_r($request->all()));
         $menu = Menu::find($request->idmenu);
         $menu->name = $request->menuname;
         $menu->save();

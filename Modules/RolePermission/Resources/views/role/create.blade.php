@@ -4,10 +4,10 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
-            <h2>Edit Role</h2>
+            <h2>Create New Role</h2>
         </div>
         <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('rolepermission') }}"> Back</a>
+            <a class="btn btn-primary" href="{{ route('role') }}"> Back</a>
         </div>
     </div>
 </div>
@@ -21,14 +21,13 @@
         </ul>
     </div>
 @endif
-<form action="{{ route('rolepermission.update') }}" method="post">
- @csrf
-<input type="hidden" name="role_id" value="{{ $role->id }}">
+<form action="{{ route('role.store') }}" method="post" >
+@csrf
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Name:</strong>
-            <input class="form-control" type="text" name="name" placeholder="Name" value="{{ $role->name }}">
+            <input name="name" placeholder="Name" class="form-control" >
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -36,10 +35,8 @@
             <strong>Permission:</strong>
             <br/>
             @foreach($permission as $value)
-                <label>
-                {{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, array('class' => 'name')) }}
-                {{ $value->name }}
-            </label>
+                <label>{{ Form::checkbox('permission[]', $value->id, false, array('class' => 'name')) }}
+                {{ $value->name }}</label>
             <br/>
             @endforeach
         </div>

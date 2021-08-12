@@ -15,7 +15,7 @@ class MenuItemsRepo
     }
     public function getParentByMenuId($id)
     {
-        return MenuItems::where('menu', (integer) $id)->where('parent', 0);
+        return MenuItems::where(['menu'=>$id,'parent'=>0])->get();
     }
     public function update($request){
         $arraydata = $request->arraydata;
@@ -23,8 +23,6 @@ class MenuItemsRepo
             foreach ($arraydata as $value) {
                 $menuitem = MenuItems::find($value['id']);
                 $menuitem->label = $value['label'];
-                $menuitem->big_menu = $value['big_menu'];
-                $menuitem->image_big_menu = $value['image_big_menu'];
                 $menuitem->link = $value['link'];
                 $menuitem->class = $value['class'];
                 if (config('menu.use_roles')) {
@@ -37,8 +35,6 @@ class MenuItemsRepo
         {
             $menuitem = MenuItems::find($request->id);
             $menuitem->label = $request->label;
-            $menuitem->big_menu = $request->big_menu;
-            $menuitem->image_big_menu = $request->image_big_menu;
             $menuitem->class = $request->clases;
             if (config('menu.use_roles')) {
                 $menuitem->role_id = $request->role_id ? $request->role_id : 0 ;
@@ -46,7 +42,7 @@ class MenuItemsRepo
             $menuitem->save();
         }
     }
-    public function customItem($request){
+    public function addCustomItem($request){
         $menuitem = new MenuItems();
         $menuitem->label =$request->labelmenu;
         $menuitem->link = $request->linkmenu;

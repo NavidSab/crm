@@ -60,7 +60,7 @@ $currentUrl = url()->current();
 																</p>
 																<p id="menu-item-name-wrap">
 																	<label class="howto" for="custom-menu-item-name"> <span>Label</span>&nbsp;
-																		<input id="custom-menu-item-name" name="label" type="text" class="form-control" title="Label menu">
+																		<input id="custom-menu-item-name" name="label" type="text" class="form-control" title="Label menu" required="required">
 																	</label>
 																</p>
 															
@@ -96,8 +96,8 @@ $currentUrl = url()->current();
 												<div id="nav-menu-header">
 													<div class="major-publishing-actions">
 														<label class="menu-name-label howto open-label" for="menu-name"> <span>Name</span>
-															<input name="menu-name" id="menu-name" type="text" class="menu-name regular-text menu-item-textbox" title="Enter menu name" value="@if(isset($indmenu)){{$indmenu->name}}@endif">
-															<input type="hidden" id="idmenu" value="@if(isset($indmenu)){{$indmenu->id}}@endif" />
+															<input name="menu-name" id="menu-name" type="text" class="menu-name regular-text menu-item-textbox" title="Enter menu name" value="@if(isset($menu)){{$menu->name}}@endif">
+															<input type="hidden" id="idmenu" value="@if(isset($menu)){{$menu->id}}@endif" />
 														</label>
 														@if(request()->has('action'))
 														<div class="publishing-action">
@@ -105,7 +105,7 @@ $currentUrl = url()->current();
 														</div>
 														@elseif(request()->has("menu"))
 														<div class="publishing-action">
-															<a onclick="getmenus()" name="save_menu" id="save_menu_header" class="button button-primary menu-save">Save menu</a>
+															<a onclick="getMenus()" name="save_menu" id="save_menu_header" class="button button-primary menu-save">Save menu</a>
 															<span class="spinner" id="spincustomu2"></span>
 														</div>
 														@else
@@ -118,7 +118,7 @@ $currentUrl = url()->current();
 												<div id="post-body">
 													<div id="post-body-content">
 														@if(request()->has("menu"))
-														
+									
 														<h3>Menu Structure</h3>
 														<div class="drag-instructions post-body-plain" style="">
 															<p>
@@ -134,8 +134,8 @@ $currentUrl = url()->current();
 														</div>
 														@endif
 														<ul class="menu ui-sortable" id="menu-to-edit">
-															@if(isset($menus))
-															@foreach($menus as $m)
+															@if(isset($MenuItem))
+															@foreach($MenuItem as $m)
 															<li id="menu-item-{{$m->id}}" class="menu-item menu-item-depth-{{$m->depth}} menu-item-page menu-item-edit-inactive pending" style="display: list-item;">
 																<dl class="menu-item-bar">
 																	<dt class="menu-item-handle">
@@ -178,14 +178,14 @@ $currentUrl = url()->current();
 																	</p>
 																	@endif
 																	<p class="field-move hide-if-no-js description description-wide">
-																		<label> <span>Move</span> <a href="{{ $currentUrl }}" class="menus-move-up" style="display: none;">Move up</a> <a href="{{ $currentUrl }}" class="menus-move-down" title="Mover uno abajo" style="display: inline;">Move Down</a> <a href="{{ $currentUrl }}" class="menus-move-left" style="display: none;"></a> <a href="{{ $currentUrl }}" class="menus-move-right" style="display: none;"></a> <a href="{{ $currentUrl }}" class="menus-move-top" style="display: none;">Top</a> </label>
+																		<label> <span>Move</span> <a href="{{ $currentUrl }}" class="menus-move-up" style="display: none;">Move up</a> <a href="{{ $currentUrl }}" class="menus-move-down" title="Mover Down" style="display: inline;">Move Down</a> <a href="{{ $currentUrl }}" class="menus-move-left" style="display: none;"></a> <a href="{{ $currentUrl }}" class="menus-move-right" style="display: none;"></a> <a href="{{ $currentUrl }}" class="menus-move-top" style="display: none;">Top</a> </label>
 																	</p>
 																	<div class="menu-item-actions description-wide submitbox">
-																		<a class="item-delete submitdelete deletion" id="delete-{{$m->id}}" href="{{ $currentUrl }}?action=delete-menu-item&menu-item={{$m->id}}&_wpnonce=2844002501">Delete</a>
+																		<a class="item-delete submitdelete button-primary " id="delete-{{$m->id}}" href="{{ $currentUrl }}?action=delete-menu-item&menu-item={{$m->id}}">Delete</a>
 																		<span class="meta-sep hide-if-no-js"> | </span>
-																		<a class="item-cancel submitcancel hide-if-no-js button-secondary" id="cancel-{{$m->id}}" href="{{ $currentUrl }}?edit-menu-item={{$m->id}}&cancel=1424297719#menu-item-settings-{{$m->id}}">Cancel</a>
+																		<a class="item-cancel submitcancel hide-if-no-js button-primary" id="cancel-{{$m->id}}" href="{{ $currentUrl }}?edit-menu-item={{$m->id}}&cancel=14#menu-item-settings-{{$m->id}}">Cancel</a>
 																		<span class="meta-sep hide-if-no-js"> | </span>
-																		<a onclick="getmenus()" class="button button-primary updatemenu" id="update-{{$m->id}}" href="javascript:void(0)">Update item</a>
+																		<a onclick="getMenus()" class="button button-primary updatemenu" id="update-{{$m->id}}" href="javascript:void(0)">Update item</a>
 																	</div>
 																</div>
 																<ul class="menu-item-transport"></ul>
@@ -206,7 +206,7 @@ $currentUrl = url()->current();
 														@elseif(request()->has("menu"))
 														<span class="delete-action"> <a class="submitdelete deletion menu-delete" onclick="deleteMenu()" href="javascript:void(9)">Delete menu</a> </span>
 														<div class="publishing-action">
-															<a onclick="getmenus()" name="save_menu" id="save_menu_header" class="button button-primary menu-save">Save menu</a>
+															<a onclick="getMenus()" name="save_menu" id="save_menu_header" class="button button-primary menu-save">Save menu</a>
 															<span class="spinner" id="spincustomu2"></span>
 														</div>
 														@else

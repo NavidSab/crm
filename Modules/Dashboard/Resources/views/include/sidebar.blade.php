@@ -20,9 +20,14 @@
                     User</a>
             </li>
             <li>
-                <a href="{{route('rolepermission')}}">
+                <a href="{{route('role')}}">
                     <i class="fas fa-users"></i>
                     Role</a>
+            </li>
+            <li>
+                <a href="{{route('permission')}}">
+                    <i class="fas fa-users"></i>
+                    Permission</a>
             </li>
             <li>
                 <a href="{{route('menu')}}">
@@ -30,24 +35,34 @@
                     Menu</a>
             </li>
         </ul>
-        <?php  $public_menu = Menu::getByName('king'); ?>
+        <?php  $public_menu = Menu::getByName('test'); ?>
         @if($public_menu)
-        <ul class="list-unstyled components text-secondary">
+        <ul class="nav navbar-nav side-nav">
             @foreach($public_menu as $menu)
-            <li >
-                <a href="{{ $menu['link'] }}" title="">{{ $menu['label'] }}</a>
-                @if( $menu['child'] )
-                <ul class="sub-menu">
+            @if(Auth::user()->hasRole($menu['role_id']))
+            @if( $menu['child'] )
+            <li>
+                <a href="#"  data-toggle="collapse" data-target="#submenu-1"><i class="fa fa-fw fa-search"></i> {{ $menu['label'] }} <i class="fa fa-fw fa-angle-down pull-right"></i></a>
+                <ul id="submenu-1" class="collapse">
                     @foreach( $menu['child'] as $child )
-                        <li class=""><a href="{{ $child['link'] }}" title="">{{ $child['label'] }}</a></li>
+                    @if(Auth::user()->hasRole($child['role_id']))
+                    <li><a href="{{ $child['link'] }}"><i class="fa fa-angle-double-right"></i> {{ $child['label'] }}</a></li>                   
+                    @endif
                     @endforeach
                 </ul>
-                @endif
             </li>
+            @else
+            <li>
+                <a href="{{ $menu['label'] }}" ><i class="fa fa-fw fa-user-plus"></i> {{ $menu['label'] }}</a>
+            </li>
+            @endif
+            @endif
             @endforeach
         </ul>
         @endif
-</nav>
+    </nav>
+    <style>
+        .collapse {list-style-type:none;}
+        .side-nav { color:black;}
+    </style>
 
- 
-    

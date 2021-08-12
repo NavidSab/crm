@@ -1,5 +1,5 @@
 var arraydata = [];
-function getmenus() {
+function getMenus() {
     arraydata = [];
     $('#spinsavemenu').show();
     var cont = 0;
@@ -28,7 +28,7 @@ function getmenus() {
         cont++;
     });
     updateItem();
-    actualizarmenu();
+    actualizarMenu();
 }
 function addCustomMenu() {
     $('#spincustomu').show();
@@ -42,9 +42,8 @@ function addCustomMenu() {
         url: add_custom_menu,
         type: 'POST',
         success: function (response) {
-            window
-                .location
-                .reload();
+            alert('Success Aded Menu Item!');
+            window.location .reload();
         },
         complete: function () {
             $('#spincustomu').hide();
@@ -100,7 +99,10 @@ function updateItem(id = 0) {
                 $('#spincustomu2').show();
             }
         },
-        success: function (response) {},
+        success: function (response) {
+            alert('Updated Successfully!');
+            window.location .reload();
+        },
         complete: function () {
             if (id) {
                 $('#spincustomu2').hide();
@@ -108,7 +110,7 @@ function updateItem(id = 0) {
         }
     });
 }
-function actualizarmenu() {
+function actualizarMenu() {
     $.ajax({
         dataType: 'json',
         data: {
@@ -129,7 +131,7 @@ function actualizarmenu() {
         }
     });
 }
-function deleteitem(id) {
+function deleteItem(id) {
     $.ajax({
         dataType: 'json',
         data: {
@@ -180,7 +182,7 @@ function createMenu() {
             type: 'POST',
             success: function (response) {
                 alert('Success Aded Menu!');
-                window.location = currentUrl ;
+                window.location = currentUrl;
             }
         });
     } else {
@@ -214,5 +216,5 @@ function insertParam(key, value) {
     document.location.search = kvp.join('&');
 }
 wpNavMenu.registerChange = function () {
-    getmenus();
+    getMenus();
 };
