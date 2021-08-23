@@ -40,7 +40,13 @@
                         <tr>
                             <td>{{ $department->id }}</td>
                             <td>{{ $department->name }}</td>
-                            <td>{{ $department->user->name }}</td>
+                            <td>
+                                @if(!empty($department->users))
+                                @foreach($department->users as $users)
+                                  <div class="badge rounded-pill badge-light-primary">{{  $users->name   }}</div> 
+                                @endforeach
+                              @endif
+                            </td>
                             <td>
                                 <div class="dropdown">
                                     <button

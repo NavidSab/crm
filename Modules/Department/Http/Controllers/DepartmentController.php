@@ -59,6 +59,7 @@ class DepartmentController extends Controller
     public function store(DepartmentRequest $request)
     {
         $department = $this->departmentRepo->store($request);
+        $this->departmentRepo->storeUser($request->input('user'),$department->id);
         return redirect()->route('department')->with('success','Department created successfully');
     }
 
@@ -79,11 +80,13 @@ class DepartmentController extends Controller
      */
     public function edit($id)
     {
-        $department = $this->departmentRepo->findById($id);
-        $user = $this->userRepo->getAll();
+
         $title='Edit Department';
         $description= $this->description;
-        return view('department::edit',compact('department','user','description','title'));
+        $department = $this->departmentRepo->findById($id);
+        $user = $this->userRepo->getAll();
+        $departmentUsers = $department->users->pluck('id')->all();
+        return view('department::edit',compact('department','user','departmentUsers','description','title'));
     }
 
     /**
@@ -95,6 +98,8 @@ class DepartmentController extends Controller
     public function update(UpdateDepartmentRequest $request)
     {
         $department=$this->departmentRepo->update($request);
+        $this->departmentRepo->deleteUser($department->id);
+        $this->departmentRepo->storeUser($request->input('user'),$department->id);
         return redirect()->route('department')->with('success','Department updated successfully');
     }
 

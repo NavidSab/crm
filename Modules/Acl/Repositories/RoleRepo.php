@@ -22,11 +22,7 @@ class RoleRepo
     public function getOrderBy(){
         return Role::orderBy('id','DESC')->paginate(5);
     }
-    public function getWithJoin($id){
-        return  Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
-            ->where("role_has_permissions.role_id",$id)
-            ->get();
-    }
+
     public function store($request){
         return Role::create([
             'name' => $request->input('name')
@@ -43,8 +39,8 @@ class RoleRepo
          ]);
         }
     }
-    public function deletePermission($user_id){
-        DB::table('role_permissions')->where('role_id',$user_id)->delete();
+    public function deletePermission($role_id){
+        DB::table('role_permissions')->where('role_id',$role_id)->delete();
     }
     public function delete($id)
     {

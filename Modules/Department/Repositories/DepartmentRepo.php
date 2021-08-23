@@ -2,7 +2,7 @@
 namespace Modules\Department\Repositories;
 use Modules\Department\Entities\Department;
 use Illuminate\Support\Facades\Hash;
-
+use DB;
 class DepartmentRepo
 {
 
@@ -25,16 +25,40 @@ class DepartmentRepo
     public function store($request)
     {
         return Department::create([
-            'name'     => $request->name,
-            'head_id'    => $request->head_id
+            'name'     => $request->name
         ]);
     }
+
+
+
+    public function storeUser(array $user , $department_id)
+    {
+        foreach($user as $users){
+        DB::table('department_users')->insert([
+            'department_id'       => $department_id,
+            'user_id'             => $users
+         ]);
+        }
+    }
+
+    public function deleteUser($department_id){
+        DB::table('department_users')->where('department_id',$department_id)->delete();
+    }
+
+
+
+
     public function update($request)
     {
-        return Department::where('id',$request->department_id)->update([
-            'name'  =>$request->name,
-            'head_id'        =>$request->head_id,
+     
+        $role =  Department::find($request->department_id);
+        $result = tap($role)->update([
+            'name'        =>$request->name
         ]);
+        return $result;
+
         
     }
+
+
 }

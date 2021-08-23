@@ -3,16 +3,16 @@
 namespace Modules\Department\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Modules\User\Entities\User;
+use Modules\Department\Entities\Department;
+
 class Department extends Model
 {
-    protected $guard_name = 'departments';
-    protected $fillable = ['name','head_id'];
+    protected $fillable = ['name'];
 
-
-    public function user()
+    public function users()
     {
-        return $this->belongsTo(User::class, 'head_id', 'id');
+        return $this->belongsToMany(User::class, 'department_users', 'department_id', 'user_id');
     }
-
+   
     
 }

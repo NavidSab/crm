@@ -33,7 +33,10 @@
                         <tr>
                             <th>No</th>
                             <th>Name</th>
-                            <th>Head of Department</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th> Department</th>
+                            <th> Document</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -41,8 +44,14 @@
                         @foreach ($leaves as $key => $leave )
                         <tr>
                             <td>{{ $leave->id }}</td>
-                            <td>{{ $leave->name }}</td>
-                            <td>{{ $leave->name }}</td>
+                            <td>{{ $leave->user->name }}</td>
+                            <td>{{ $leave->date_from }}</td>
+                            <td>{{ $leave->date_to }}</td>
+                            <td>{{ $leave->department->name }}</td>
+                            <td>
+                                <a href="{{ $leave->document }}" class="btn btn-primary waves-effect waves-float waves-light">Download</a>
+                            </td>
+
                             <td>
                                 <div class="dropdown">
                                     <button
@@ -52,15 +61,19 @@
                                         <i data-feather="more-vertical"></i>
                                     </button>
                                     <div class="dropdown-menu">
+                                        @if(auth()->user()->hasRole('admin'))
                                         <a class="dropdown-item" href="{{ route('leave.edit',$leave->id) }}">
                                             <i data-feather="edit-2" class="me-50"></i>
                                             <span>Edit</span>
                                         </a>
+
                                            <form id="delete-form" action="{{ route('leave.destroy',$leave->id) }}" method="POST" class="d-none">
                                             @csrf
                                             </form>
                                            <a class="dropdown-item"  href="javascript:void(0)" onclick="event.preventDefault(); document.getElementById('delete-form').submit();"><i data-feather="trash" class="me-50"></i>Delete</a>
-                                    </div>
+                                   
+                                           @endif
+                                        </div>
                                 </div>
                             </td>
                         </tr>

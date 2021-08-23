@@ -53,7 +53,6 @@ class PermissionController extends Controller
     public function update(PermissionRequest $request)
     {
         $role = $this->permissionsRepo->update($request);
-        $role->syncPermissions($request->input('permission'));
         return redirect()->route('permission')->with('success','Permission updated successfully');
     }
     public function destroy($id)

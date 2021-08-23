@@ -32,7 +32,15 @@ class LeaveController extends Controller
      */
     public function index(Request $request)
     {
+
+        if(auth()->user()->hasRole('admin'))
+        {
         $leaves=$this->leavetRepo->getAll();
+        }
+        else
+        {
+        $leaves=$this->leavetRepo->getMyItem();
+        }
         $title='Leave List';
         $description= $this->description;
         return view('leave::index',compact('title','description','leaves'))->with( ($request->input('page', 1) - 1) * 5);
@@ -79,11 +87,11 @@ class LeaveController extends Controller
      */
     public function edit($id)
     {
-        $leave = $this->leavetRepo->findById($id);
-        $user = $this->userRepo->getAll();
         $title='Edit Leave';
         $description= $this->description;
-        return view('leave::edit',compact('leave','user','description','title'));
+        $leave = $this->leavetRepo->findById($id);
+        $departments=$this->departmentRepo->getAll();
+        return view('leave::edit',compact('leave','departments','description','title'));
     }
 
     /**

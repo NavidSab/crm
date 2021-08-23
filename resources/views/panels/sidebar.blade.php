@@ -88,24 +88,24 @@ $configData = Helper::applClasses();
           
       </li>
       @endif
-
-
-      <li class=" navigation-header"><span data-i18n="Admin Managment">Leave & Department</span><i data-feather="more-horizontal"></i>
+      <li class=" navigation-header"><span data-i18n="College Managment">College Managment</span><i data-feather="more-horizontal"></i>
       </li>
-      @if(auth()->user()->hasRole('admin'))
-
       <li class=" nav-item">
-        <a class="d-flex align-items-center" href="{{url('/department')}}">
-          <i data-feather="home"></i>
-          <span class="menu-title text-truncate" data-i18n="Home">Department</span>
+        <a class="d-flex align-items-center" href="{{url('/college')}}">
+          <i data-feather="plus"></i>
+          <span class="menu-title text-truncate" data-i18n="College">Add College</span>
         </a>
       </li>
-      @endif
-
       <li class=" nav-item">
-        <a class="d-flex align-items-center" href="{{url('/leave')}}">
-          <i data-feather="home"></i>
-          <span class="menu-title text-truncate" data-i18n="Home">Leave</span>
+        <a class="d-flex align-items-center" href="{{url('/program')}}">
+          <i data-feather="plus"></i>
+          <span class="menu-title text-truncate" data-i18n="Program">Add Program</span>
+        </a>
+      </li>
+      <li class=" nav-item">
+        <a class="d-flex align-items-center" href="{{url('/document')}}">
+          <i data-feather="plus"></i>
+          <span class="menu-title text-truncate" data-i18n="Document">Add Document</span>
         </a>
       </li>
   </ul>

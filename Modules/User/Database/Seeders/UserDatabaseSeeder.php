@@ -2,8 +2,8 @@
 namespace Modules\User\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Modules\User\Entities\User;
-use Modules\RolePermission\Entities\Role;
-use Modules\RolePermission\Entities\Permission;
+use Modules\Acl\Entities\Role;
+use DB;
 class UserDatabaseSeeder extends Seeder
 {
     /**
@@ -14,10 +14,17 @@ class UserDatabaseSeeder extends Seeder
     public function run()
     {
         $user = User::create([
-            'name' => 'King Kraphics', 
-            'email' => 'admin@king.graphic',
-            'password' => bcrypt('12345678')
+            'name' => 'Admin', 
+            'email' => 'admin@admin.com',
+            'password' => bcrypt('123456')
         ]);
-        $user->assignRole('super-admin');
+        $role=Role::create([
+            'name' => 'admin', 
+        ]);
+
+        DB::table('user_roles')->insert([
+            'role_id' => $role->id,
+            'user_id' => $user->id
+         ]);
     }
 }

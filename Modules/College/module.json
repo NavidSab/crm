@@ -1,0 +1,13 @@
+{
+    "name": "College",
+    "alias": "college",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\College\\Providers\\CollegeServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

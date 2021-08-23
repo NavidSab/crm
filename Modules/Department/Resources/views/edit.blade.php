@@ -1,6 +1,17 @@
 @extends('layouts.contentLayoutMaster')
  @section('title', $title)
 @section('content')
+@section('vendor-style')
+  <!-- vendor css files -->
+  <link rel="stylesheet" href="{{ asset('assets/vendors/css/forms/select/select2.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/vendors/css/pickers/pickadate/pickadate.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/vendors/css/pickers/flatpickr/flatpickr.min.css') }}">
+ @endsection 
+
+@section('page-style')
+<link rel="stylesheet" href="{{ asset('assets/css/plugins/forms/pickers/form-flat-pickr.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/plugins/forms/pickers/form-pickadate.css') }}">
+@endsection
 <!-- Basic Tables start -->
 <section id="multiple-column-form">
     <div class="row">
@@ -33,10 +44,9 @@
                 <div class="col-md-6 col-12">
                   <div class="mb-1">
                         <label class="form-label" for="head">Head</label>
-                        <select name="head_id" class="form-select" size="5" aria-label="size 5 select" id="head" required>
-                          <option selected="" disabled>select one person</option>
+                        <select  class="select2 form-select"id="department_id" multiple="multiple" name="user[]" required>
                           @foreach ($user as $item)                  
-                          <option value="{{ $item->id }}" {{ $department->head_id == $item->id ? 'selected' : ''}}>{{ $item->name }}</option>
+                          <option value="{{ $item->id }}" {{ in_array($item->id, $departmentUsers)  ? 'selected' : ''}}>{{ $item->name }}</option>
                           @endforeach
                         </select>
                 </div>
@@ -55,4 +65,19 @@
   </section>
 </div>
 <!-- Basic Tables end -->
+@endsection
+@section('vendor-script')
+  <!-- vendor files -->
+  <script src="{{ asset('assets/vendors/js/forms/select/select2.full.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/js/pickers/pickadate/picker.js') }}"></script>
+    <script src="{{ asset('assets/vendors/js/pickers/pickadate/picker.date.js') }}"></script>
+    <script src="{{ asset('assets/vendors/js/pickers/pickadate/picker.time.js') }}"></script>
+    <script src="{{ asset('assets/vendors/js/pickers/pickadate/legacy.js') }}"></script>
+    <script src="{{ asset('assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
+@endsection
+@section('page-script')
+  <!-- Page js files -->
+   <script src="{{ asset('assets/js/scripts/forms/form-select2.js') }}"></script>
+  <script src="{{ asset('assets/js/scripts/forms/pickers/form-pickers.js') }}"></script> 
+
 @endsection

@@ -15,7 +15,7 @@ class DepartmentRequest extends FormRequest
     {
         return [
                 'name'     => 'required',
-                'head_id'    => 'required',
+                'user'    => 'required',
         ];
     }
 

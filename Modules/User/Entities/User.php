@@ -5,20 +5,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Modules\Acl\Entities\Role;
 use Modules\Acl\Entities\Permission;
+use Modules\Department\Entities\Department;
 
 class User extends Authenticatable
 {
     use  Notifiable;
     protected $fillable = ['name','email','password'];
-    public function department()
+    public function departments()
     {
-            return $this->hasMany(Department::class, 'head_id', 'id');
+        return $this->belongsToMany(Department::class, 'department_users', 'user_id', 'department_id');
     }
-    // public function roles()
-    // {
-    //     return $this->belongsToMany(Role::class,'user_roles');
-    // }
-
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id');
