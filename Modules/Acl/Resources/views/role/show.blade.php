@@ -20,9 +20,11 @@
                         <div class="col-md-6 col-12">
                             <div class="mb-1">
                                 <strong>Permissions:</strong>
-                                @if(!empty($rolePermissions)) @foreach($rolePermissions as $item)
-                                <label class="label label-success">{{ $item->name }},</label>
-                                @endforeach @endif
+                                @if(!empty($role->permissions))
+                                @foreach($role->permissions as $permissions)
+                                  <div class="badge rounded-pill badge-light-primary">{{  $permissions->name   }}</div> 
+                                @endforeach
+                              @endif
                             </div>
                         </div>
                     </div>

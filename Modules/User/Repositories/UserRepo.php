@@ -2,12 +2,18 @@
 namespace Modules\User\Repositories;
 use Modules\User\Entities\User;
 use Illuminate\Support\Facades\Hash;
+use DB;
 class UserRepo
 {
 
     public function getWithPaginate()
     {
         return User::orderBy('id','DESC')->paginate(5);
+    }
+    public function getRoles()
+    {
+        $user = new User();
+        return $user->roles();
     }
     public function getAll()
     {
@@ -29,6 +35,20 @@ class UserRepo
             'password' => Hash::make($request->password),
         ]);
     }
+    public function storeRole(array $role , $user_id)
+    {
+        foreach($role as $roles){
+        DB::table('user_roles')->insert([
+            'role_id' => $roles,
+            'user_id' => $user_id
+         ]);
+        }
+
+    }
+    public function deleteRole($user_id){
+        DB::table('user_roles')->where('user_id',$user_id)->delete();
+    }
+    
     public function update($request)
     {
         if(!empty($request->password))

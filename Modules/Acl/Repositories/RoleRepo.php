@@ -3,6 +3,7 @@ namespace Modules\Acl\Repositories;
 use Modules\Acl\Entities\Role;
 use Modules\Acl\Entities\Permission;
 use Illuminate\Support\Facades\Hash;
+use DB;
 class RoleRepo
 {
     public function getRoles()
@@ -12,9 +13,12 @@ class RoleRepo
     public function getById($id){
         return Role::find($id);
     }
-    public function getAllPermission(){
-        return Permission::get();
+    public function getPermission()
+    {
+        $role = new Role();
+        return $role->roles();
     }
+    
     public function getOrderBy(){
         return Role::orderBy('id','DESC')->paginate(5);
     }
@@ -28,8 +32,20 @@ class RoleRepo
             'name' => $request->input('name')
         ]);
 
-    }
 
+    }
+    public function storePermission(array $permission , $role_id)
+    {
+        foreach($permission as $permissions){
+        DB::table('role_permissions')->insert([
+            'role_id'       => $role_id,
+            'permission_id' => $permissions
+         ]);
+        }
+    }
+    public function deletePermission($user_id){
+        DB::table('role_permissions')->where('role_id',$user_id)->delete();
+    }
     public function delete($id)
     {
         return Role::find($id)->delete();

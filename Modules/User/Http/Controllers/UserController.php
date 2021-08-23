@@ -5,9 +5,10 @@ use Illuminate\Routing\Controller;
 use Modules\User\Repositories\UserRepo;
 use Modules\User\Http\Requests\UserRequest;
 use Modules\User\Http\Requests\UpdateUserRequest;
-// use Modules\RolePermission\Repositories\RoleRepo;
-use DB;
+use Modules\Acl\Repositories\RoleRepo;
 use Modules\User\Entities\User;
+
+use DB;
 use Auth;
 
 
@@ -17,9 +18,9 @@ class UserController extends Controller
     public $roleRepo;
     public $title;
     public $description;
-    public function __construct(UserRepo $userRepo ){
+    public function __construct(UserRepo $userRepo,RoleRepo $roleRepo){
         $this->userRepo=$userRepo;
-        // $this->roleRepo=$roleRepo;
+        $this->roleRepo=$roleRepo;
         $this->title='Users';
         $this->description='description';
 
@@ -29,7 +30,7 @@ class UserController extends Controller
     {
         $title='User List';
         $description= $this->description;
-        $users =$this->userRepo->getAll();
+        $users =$this->userRepo->getWithPaginate();
         return view('user::index',compact('title','description','users'))->with('i', ($request->input('page', 1) - 1) * 5);
     }
     public function create()
@@ -42,7 +43,7 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $user = $this->userRepo->store($request);
-        $user->assignRole($request->input('roles'));
+        $this->userRepo->storeRole($request->input('roles'),$user->id);
         return redirect()->route('user')->with('success','User created successfully');
     }
     public function show($id)
@@ -64,8 +65,8 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request)
     {
         $user=$this->userRepo->update($request);
-        DB::table('model_has_roles')->where('model_id',$request->user_id)->delete();
-        $user->assignRole($request->input('roles'));
+        $this->userRepo->deleteRole($user->id);
+        $this->userRepo->storeRole($request->input('roles'),$user->id);
         return redirect()->route('user')->with('success','User updated successfully');
     }
     public function destroy($id)

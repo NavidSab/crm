@@ -4,19 +4,23 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Acl\Repositories\RoleRepo;
+use Modules\Acl\Repositories\PermissionRepo;
 use Modules\Acl\Http\Requests\RoleRequest;
 use DB;
 class RoleController extends Controller
 {
 
     public $roleRepo;
+    public $permissionRepo;
     public $title;
     public $description;
-    public function __construct(RoleRepo $roleRepo)
+    public function __construct(RoleRepo $roleRepo,PermissionRepo $permissionRepo)
     {
         $this->title='Role';
         $this->description='description';
         $this->roleRepo=$roleRepo;
+        $this->permissionRepo=$permissionRepo;
+
     }
     public function index(Request $request)
     {
@@ -29,14 +33,13 @@ class RoleController extends Controller
     {
         $title='Role Create';
         $description= $this->description;
-        $permission = $this->roleRepo->getAllPermission();
+        $permission = $this->permissionRepo->getAll();
         return view('acl::role.create',compact('title','description','permission'));
     }
     public function store(RoleRequest $request)
     {
-        $role_id =  $this->roleRepo->store($request);
-        $role_id =  $this->roleRepo->store($request);
-
+        $role =  $this->roleRepo->store($request);
+        $this->roleRepo->storePermission($request->input('permission'),$role->id);
         return redirect()->route('role')->with('success','Role created successfully');
     }
     public function show($id)
@@ -44,24 +47,23 @@ class RoleController extends Controller
         $title='Role Details';
         $description= $this->description;
         $role =$this->roleRepo->getById($id);
-        $acls =$this->roleRepo->getWithJoin($id); 
-        return view('acl::role.show',compact('role','acls','title','description'));
+        return view('acl::role.show',compact('role','title','description'));
     }
     public function edit($id)
     {
         $title='Edit Leave';
         $description= $this->description;
         $role =$this->roleRepo->getById($id);
-        $permission =$this->roleRepo->getAllPermission();
-        $acls = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
-            ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
-            ->all();
-        return view('acl::role.edit',compact('role','permission','acls','description','title'));
+        $permissions = $this->permissionRepo->getAll();
+        $rolePermission = $role->permissions->pluck('id')->all();
+        return view('acl::role.edit',compact('title','description','role','permissions','rolePermission'));
+
     }
     public function update(RoleRequest $request)
     {
         $role = $this->roleRepo->update($request);
-        $role->syncPermissions($request->input('permission'));
+        $this->roleRepo->deletePermission($role->id);
+        $this->roleRepo->storePermission($request->input('permission'),$role->id);
         return redirect()->route('role')->with('success','Role updated successfully');
     }
     public function destroy($id)

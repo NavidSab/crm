@@ -45,9 +45,9 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
-                              @if(!empty($user->getRoleNames()))
-                                @foreach($user->getRoleNames() as $roleName)
-                                  <div class="badge rounded-pill badge-light-primary">{{  $roleName   }}</div> 
+                              @if(!empty($user->roles))
+                                @foreach($user->roles as $roles)
+                                  <div class="badge rounded-pill badge-light-primary">{{  $roles->name   }}</div> 
                                 @endforeach
                               @endif
                             </td>
@@ -68,12 +68,12 @@
                                             <i data-feather="edit-2" class="me-50"></i>
                                             <span>Edit</span>
                                         </a>
-                                        @hasrole('admin')
+                                        @if(auth()->user()->hasRole('admin'))
                                         <form id="delete-form" action="{{ route('user.destroy',$user->id) }}" method="POST" class="d-none">
                                             @csrf
                                             </form>
                                            <a class="dropdown-item"  href="javascript:void(0)" onclick="event.preventDefault(); document.getElementById('delete-form').submit();"><i data-feather="trash" class="me-50"></i>Delete</a>
-                                        @endhasrole
+                                        @endif
                                     </div>
                                 </div>
                             </td>

@@ -12,17 +12,13 @@ class PermissionRepo
     public function getById($id){
         return Permission::find($id);
     }
-    public function getAllPermission(){
+    public function getAll(){
         return Permission::get();
     }
     public function getOrderBy(){
         return Permission::orderBy('id','DESC')->paginate(5);
     }
-    public function getWithJoin($id){
-        return  Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
-            ->where("role_has_permissions.role_id",$id)
-            ->get();
-    }
+
     public function store($request){
         return Permission::create([
             'name' => $request->input('name')

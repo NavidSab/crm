@@ -33,6 +33,7 @@
                         <tr>
                             <th>No</th>
                             <th>Name</th>
+                            <th>Permission</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -41,6 +42,13 @@
                         <tr>
                             <td>{{ $role->id }}</td>
                             <td>{{ $role->name }}</td>
+                            <td>
+                                @if(!empty($role->permissions))
+                                  @foreach($role->permissions as $permissions)
+                                    <div class="badge rounded-pill badge-light-primary">{{  $permissions->name   }}</div> 
+                                  @endforeach
+                                @endif
+                              </td>
                             <td>
                                 <div class="dropdown">
                                     <button

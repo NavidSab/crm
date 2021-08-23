@@ -28,11 +28,12 @@
                         <div class="col-md-6 col-12">
                             <div class="mb-1">
                                 <strong>Roles:</strong>
-                                @if(!empty($user->getRoleNames()))
-                                    @foreach($user->getRoleNames() as $item)
-                                    <div class="badge rounded-pill badge-light-primary">{{ $item }}</div>
-                                    @endforeach
-                                @endif
+                             
+                                @if(!empty($user->roles))
+                                @foreach($user->roles as $roles)
+                                  <div class="badge rounded-pill badge-light-primary">{{  $roles->name   }}</div> 
+                                @endforeach
+                              @endif
                             </div>
                         </div>
                     </div>

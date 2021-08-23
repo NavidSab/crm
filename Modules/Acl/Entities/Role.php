@@ -3,6 +3,8 @@
 namespace Modules\Acl\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\User\Entities\User;
+use Modules\Acl\Entities\Permission;
 
 class Role extends Model
 {
@@ -10,8 +12,15 @@ class Role extends Model
     // {
     //     return $this->belongsToMany(Permission::class , 'role_permissions');
     // }
-    public function permissions(): BelongsToMany
+    protected $fillable = ['name'];
+    protected $table='roles';
+
+    public function permissions()
     {
-        return $this->belongsToMany('permission','role_permissions','role_id','permission_id');
+        return $this->belongsToMany(Permission::class, 'role_permissions', 'role_id', 'permission_id');
+    }
+    public function users()
+    {
+         return $this->belongsToMany(User::class);
     }
 }

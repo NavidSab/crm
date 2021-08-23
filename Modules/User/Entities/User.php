@@ -14,9 +14,14 @@ class User extends Authenticatable
     {
             return $this->hasMany(Department::class, 'head_id', 'id');
     }
+    // public function roles()
+    // {
+    //     return $this->belongsToMany(Role::class,'user_roles');
+    // }
+
     public function roles()
     {
-        return $this->belongsToMany(Role::class,'user_roles');
+        return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id');
     }
 
     public function permissions()
@@ -89,5 +94,9 @@ class User extends Authenticatable
         $this->permissions()->detach();
         return $this->givePermission($permissions);
     }
+
+
+
+
     
 }
