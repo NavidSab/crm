@@ -20,5 +20,3 @@ Route::prefix('user')->group(function() {
     Route::post('{id}/destroy', 'UserController@destroy')->name('user.destroy')->where('id', '[0-9]+');
     Route::post('update', 'UserController@update')->name('user.update');
 });
-
-

@@ -4,5 +4,8 @@
     "RolePermission": true,
     "Auth": true,
     "User": true,
-    "Menu": true
+    "Menu": true,
+    "Department": true,
+    "Leave": true,
+    "Acl": true
 }

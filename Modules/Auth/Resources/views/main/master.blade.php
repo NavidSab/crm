@@ -1,80 +1,115 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html>
+<html
+    class="loading dark-layout"
+    lang="en"
+    data-layout="dark-layout"
+    data-textdirection="ltr">
+    <!-- BEGIN: Head-->
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta
+            name="viewport"
+            content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="author" content="{{ config('app.author', 'Navid Sabbaghi') }}">
+        <!-- CSRF Token -->
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <title>{{ config('app.name', 'Admin Dashboard') }}</title>
+        <link rel="apple-touch-icon" href="{{asset('assets/images/ico/apple-icon-120.png')}}">
+        <link
+            rel="shortcut icon"
+            type="image/x-icon"
+            href="{{asset('assets/images/ico/favicon.ico')}}">
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
+            rel="stylesheet">
+        <!-- BEGIN: Vendor CSS-->
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{{asset('assets/vendors/css/vendors.min.css')}}">
+        <!-- END: Vendor CSS-->
+        <!-- BEGIN: Theme CSS-->
+        <link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.min.css')}}">
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{{asset('assets/css/bootstrap-extended.min.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{asset('assets/css/colors.min.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{asset('assets/css/components.min.css')}}">
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{{asset('assets/css/themes/dark-layout.min.css')}}">
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{{asset('assets/css/themes/bordered-layout.min.css')}}">
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{{asset('assets/css/themes/semi-dark-layout.min.css')}}">
+        <!-- BEGIN: Page CSS-->
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{{asset('assets/css/core/menu/menu-types/horizontal-menu.min.css')}}">
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{{asset('assets/css/plugins/forms/form-validation.css')}}">
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{{asset('assets/css/pages/page-auth.min.css')}}">
+        <!-- END: Page CSS-->
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+        <!-- BEGIN: Custom CSS-->
+        <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
+        <!-- END: Custom CSS-->
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    </head>
+    <!-- END: Head-->
 
-    <!-- Scripts -->
-    <!--<script src="{{ asset('js/app.js') }}" defer></script>-->
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
-    <!-- Styles -->
-    <link href="{{Module::asset('auth:css/app.css')}}" rel="stylesheet">
-</head>
-<body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
+    <!-- BEGIN: Body-->
+    <body
+        class="horizontal-layout horizontal-menu blank-page navbar-floating footer-static  "
+        data-open="hover"
+        data-menu="horizontal-menu"
+        data-col="blank-page">
+        <!-- BEGIN: Content-->
 
         <main class="py-4">
             @yield('content')
         </main>
-    </div>
-</body>
+
+        <!-- BEGIN: Vendor JS-->
+        <script src="{{asset('assets/vendors/js/vendors.min.js')}}"></script>
+        <!-- BEGIN Vendor JS-->
+
+        <!-- BEGIN: Page Vendor JS-->
+        <script src="{{asset('assets/vendors/js/ui/jquery.sticky.js')}}"></script>
+        <script src="{{asset('assets/vendors/js/forms/validation/jquery.validate.min.js')}}"></script>
+        <!-- END: Page Vendor JS-->
+
+        <!-- BEGIN: Theme JS-->
+        <script src="{{asset('assets/js/core/app-menu.min.js')}}"></script>
+        <script src="{{asset('assets/js/core/app.min.js')}}"></script>
+        <!-- END: Theme JS-->
+
+        <!-- BEGIN: Page JS-->
+        <script src="{{asset('assets/js/scripts/pages/page-auth-login.js')}}"></script>
+        <!-- END: Page JS-->
+
+        <script>
+            $(window).on('load', function () {
+                if (feather) {
+                    feather.replace({width: 14, height: 14});
+                }
+            })
+        </script>
+    </body>
+    <!-- END: Body-->
 </html>

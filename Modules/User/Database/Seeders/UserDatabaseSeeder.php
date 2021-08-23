@@ -18,9 +18,6 @@ class UserDatabaseSeeder extends Seeder
             'email' => 'admin@king.graphic',
             'password' => bcrypt('12345678')
         ]);
-        $role = Role::create(['name' => 'Admin']);
-        $permissions = Permission::pluck('id','id')->all();
-        $role->syncPermissions($permissions);
-        $user->assignRole([$role->id]);
+        $user->assignRole('super-admin');
     }
 }

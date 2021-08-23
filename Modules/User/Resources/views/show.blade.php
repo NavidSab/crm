@@ -1,39 +1,71 @@
-@extends('dashboard::main.master')
+
+
+@extends('layouts.contentLayoutMaster')
+ @section('title', $title)
 @section('content')
-<div class=" container card">
-<div class="row">
-    <div class="col-lg-12 margin-tb">
-        <div class="pull-left">
-            <h2> Show User</h2>
-        </div>
-        <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('user') }}"> Back</a>
+<!-- Basic Tables start -->
+<section id="multiple-column-form">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">{{ $title }}</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 col-12">
+                            <div class="mb-1">
+                                <strong>Name:</strong>
+                                <div class="badge rounded-pill badge-light-primary"> {{ $user->name }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="mb-1">
+                                <strong>Email:</strong>
+                                <div class="badge rounded-pill badge-light-primary"> {{ $user->email }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="mb-1">
+                                <strong>Roles:</strong>
+                                @if(!empty($user->getRoleNames()))
+                                    @foreach($user->getRoleNames() as $item)
+                                    <div class="badge rounded-pill badge-light-primary">{{ $item }}</div>
+                                    @endforeach
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <a
+                                href="{{ route('user') }}"
+                                class="btn btn-primary btn-prev waves-effect waves-float waves-light">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="14"
+                                    height="14"
+                                    viewbox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="feather feather-arrow-left align-middle me-sm-25 me-0">
+                                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                                    <polyline points="12 19 5 12 12 5"></polyline>
+                                </svg>
+                                <span class="align-middle d-sm-inline-block d-none">Back</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Name:</strong>
-            {{ $user->name }}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Email:</strong>
-            {{ $user->email }}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Roles:</strong>
-            @if(!empty($user->getRoleNames()))
-                @foreach($user->getRoleNames() as $v)
-                    <label class="badge badge-success">{{ $v }}</label>
-                @endforeach
-            @endif
-        </div>
-    </div>
 </div>
+</section>
 </div>
+<!-- Basic Tables end -->
 @endsection

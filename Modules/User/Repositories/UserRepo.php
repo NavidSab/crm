@@ -5,9 +5,13 @@ use Illuminate\Support\Facades\Hash;
 class UserRepo
 {
 
-    public function getAll()
+    public function getWithPaginate()
     {
         return User::orderBy('id','DESC')->paginate(5);
+    }
+    public function getAll()
+    {
+        return User::orderBy('id','DESC')->get();
     }
     public function findById($id)
     {
