@@ -16,8 +16,6 @@
 <!-- Dashboard Ecommerce Starts -->
 <section id="dashboard-ecommerce">
   <div class="row match-height">
-
-
     @if(auth()->user()->hasRole('admin'))
     <!-- Statistics Card -->
     <div class="col-xl-12 col-md-12 col-12">
@@ -38,7 +36,7 @@
                   </div>
                 </div>
                 <div class="media-body my-auto">
-                  <h4 class="font-weight-bolder mb-0"> {{ $count_college }} </h4>
+                  <h4 class="font-weight-bolder mb-0"> {{  $count_college ?? ''  }} </h4>
                   <a href="{{ route('college') }}"><p class="card-text font-small-3 mb-0">College</p></a>
                 </div>
               </div>
