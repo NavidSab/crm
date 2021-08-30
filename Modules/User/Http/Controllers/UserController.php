@@ -23,14 +23,15 @@ class UserController extends Controller
         $this->roleRepo=$roleRepo;
         $this->title='Users';
         $this->description='description';
-
         $this->middleware('auth');
+    
     }
     public function index(Request $request)
     {
         $title='User List';
         $description= $this->description;
         $users =$this->userRepo->getWithPaginate();
+        // $this->middleware('HasPermission:User_Read');
         return view('user::index',compact('title','description','users'))->with('i', ($request->input('page', 1) - 1) * 5);
     }
     public function create()
@@ -44,6 +45,7 @@ class UserController extends Controller
     {
         $user = $this->userRepo->store($request);
         $this->userRepo->storeRole($request->input('roles'),$user->id);
+        $this->userRepo->storePermission($user->id);
         return redirect()->route('user')->with('success','User created successfully');
     }
     public function show($id)
@@ -67,11 +69,14 @@ class UserController extends Controller
         $user=$this->userRepo->update($request);
         $this->userRepo->deleteRole($user->id);
         $this->userRepo->storeRole($request->input('roles'),$user->id);
+        $this->userRepo->deletePermission($user->id);
+        $this->userRepo->storePermission($user->id);
         return redirect()->route('user')->with('success','User updated successfully');
     }
     public function destroy($id)
     {
         $this->userRepo->delete($id);
+        $this->userRepo->deletePermission($id);
         return redirect()->route('user')->with('success','User deleted successfully');
     }
 }

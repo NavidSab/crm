@@ -44,6 +44,20 @@ class User extends Authenticatable
         return $this->hasPermissionThroughRole($permission) || (bool) $this->permissions->where('name',$permission->name)->count();
     }
 
+ 
+
+    public function hasPermissions(string $permission)
+    {
+        if($this->permissions()->where('name', $permission)->first())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    
+    }
 
     public function hasPermissionThroughRole($permission)
     {

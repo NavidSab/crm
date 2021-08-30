@@ -29,8 +29,7 @@ class PermissionController extends Controller
     {
         $title='Permission Create';
         $description= $this->description;
-        $permission = $this->permissionsRepo->getAllPermission();
-        return view('acl::permission.create',compact('title','description','permission'));
+        return view('acl::permission.create',compact('title','description'));
     }
     public function store(PermissionRequest $request)
     {

@@ -6,17 +6,14 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Modules\Menu\Http\Facades\Menu;
 use Illuminate\Routing\Controller;
-use Modules\College\Repositories\CollegeRepo;
 
 class DashboardController extends Controller
 {
 
 
-    public $collegeRepo;
     public $title;
     public $description;
-    public function __construct(CollegeRepo $collegeRepo){
-        $this->collegeRepo=$collegeRepo;
+    public function __construct(){
         $this->title='Dashboard';
         $this->description='description';
         $this->middleware('auth');
@@ -27,8 +24,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $count_college = $this->collegeRepo->count();
-        return view('dashboard::index', compact('count_college'));
+        return view('dashboard::index');
     }
 
 

@@ -20,11 +20,15 @@ class DepartmentController extends Controller
     public $title;
     public $description;
     public function __construct(DepartmentRepo $departmentRepo,UserRepo $userRepo ){
+
         $this->departmentRepo=$departmentRepo;
         $this->userRepo=$userRepo;
         $this->title='Department';
         $this->description='description';
         $this->middleware('auth');
+        // $this->middleware('HasPermission:Department_Read,Department_Update,Department_Delete');
+        $this->middleware('HasRole:admin,employee');
+
     }
     /**
      * Display a listing of the resource.
@@ -110,6 +114,8 @@ class DepartmentController extends Controller
      */
     public function destroy($id)
     {
+        $this->middleware('HasPermission:Department_Delete');
+        die(print_r('f'));
         $this->departmentRepo->delete($id);
         return redirect()->route('department')->with('success','Department deleted successfully');
     }

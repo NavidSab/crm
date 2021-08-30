@@ -35,7 +35,7 @@
           <form class="form" action="{{ route('department.store') }}" method="post">
               @csrf
               <div class="row">
-                <div class="col-md-6 col-12">
+                <div class="col-md-3 col-12">
                   <div class="mb-1">
                     <label class="form-label" for="first-name-column"> Name</label>
                     <input type="text" id="first-name-column" class="form-control" placeholder="Name" name="name" required>
@@ -43,11 +43,11 @@
                 </div>
   
 
-                <div class="col-md-3 col-12">
+                <div class="col-md-6 col-12">
                   <div class="mb-1">
                     </select>  
-                    <label class="foform-label" for="department_id">Head Person</label>
-                    <select class="select2 form-select" id="department_id" multiple="multiple" name="user[]">
+                    <label class="foform-label" for="user_id">Lead Person</label>
+                    <select class="select2 form-select" id="user_id" multiple="multiple" name="user[]">
                       @foreach ($users as $item)                  
                       <option value="{{ $item->id }}">{{ $item->name }}</option>
                       @endforeach

@@ -38,12 +38,35 @@ class UserRepo
     public function storeRole(array $role , $user_id)
     {
         foreach($role as $roles){
-        DB::table('user_roles')->insert([
+         DB::table('user_roles')->insert([
             'role_id' => $roles,
             'user_id' => $user_id
          ]);
         }
-
+    }
+    public function deletePermission( $user_id)
+    {
+        return DB::table('user_permissions')->where('user_id',$user_id)->delete();   
+    }
+    public function storePermission( $user_id)
+    {
+        $roles=DB::table('user_roles')->where('user_id',$user_id)->get();
+        if($roles){
+            foreach($roles as $role){
+                $permissions=DB::table('role_permissions')->where('role_id',$role->role_id)->get();
+                if($permissions){
+                    foreach($permissions as $permission){
+                        $count=DB::table('user_permissions')->where(['user_id'=>$user_id,'permission_id'=>$permission->permission_id])->count();
+                        if($count == 0){
+                        DB::table('user_permissions')->insert([
+                            'permission_id' => $permission->permission_id,
+                            'user_id'       => $user_id
+                         ]);  
+                        }
+                    }
+                }
+            }
+        }
     }
     public function deleteRole($user_id){
         DB::table('user_roles')->where('user_id',$user_id)->delete();

@@ -69,10 +69,10 @@
                                             <span>Edit</span>
                                         </a>
                                         @if(auth()->user()->hasRole('admin'))
-                                        <form id="delete-form" action="{{ route('user.destroy',$user->id) }}" method="POST" class="d-none">
+                                        <form id="delete-form-{{ $user->id }}" action="{{ route('user.destroy',$user->id) }}" method="POST" class="d-none">
                                             @csrf
                                             </form>
-                                           <a class="dropdown-item"  href="javascript:void(0)" onclick="event.preventDefault(); document.getElementById('delete-form').submit();"><i data-feather="trash" class="me-50"></i>Delete</a>
+                                           <a class="dropdown-item"  href="javascript:void(0)" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();"><i data-feather="trash" class="me-50"></i>Delete</a>
                                         @endif
                                     </div>
                                 </div>

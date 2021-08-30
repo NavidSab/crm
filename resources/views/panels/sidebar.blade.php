@@ -53,9 +53,7 @@ $configData = Helper::applClasses();
         </a>
       </li>
 
-      @can('admin_setting')
-   
-      @endcan
+ 
 
       @if(auth()->user()->hasRole('admin'))
       <li class=" navigation-header"><span data-i18n="Admin Managment">Admin Managment</span><i data-feather="more-horizontal"></i>
@@ -88,26 +86,14 @@ $configData = Helper::applClasses();
           
       </li>
       @endif
-      <li class=" navigation-header"><span data-i18n="College Managment">College Managment</span><i data-feather="more-horizontal"></i>
-      </li>
       <li class=" nav-item">
-        <a class="d-flex align-items-center" href="{{url('/college')}}">
+        <a class="d-flex align-items-center" href="{{url('/department')}}">
           <i data-feather="plus"></i>
-          <span class="menu-title text-truncate" data-i18n="College">Add College</span>
+          <span class="menu-title text-truncate" data-i18n="Department"> Department</span>
         </a>
       </li>
-      <li class=" nav-item">
-        <a class="d-flex align-items-center" href="{{url('/program')}}">
-          <i data-feather="plus"></i>
-          <span class="menu-title text-truncate" data-i18n="Program">Add Program</span>
-        </a>
-      </li>
-      <li class=" nav-item">
-        <a class="d-flex align-items-center" href="{{url('/document')}}">
-          <i data-feather="plus"></i>
-          <span class="menu-title text-truncate" data-i18n="Document">Add Document</span>
-        </a>
-      </li>
+
+
   </ul>
   </div>
 </div>

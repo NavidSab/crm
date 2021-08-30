@@ -54,9 +54,9 @@ class RoleController extends Controller
         $title='Edit Leave';
         $description= $this->description;
         $role =$this->roleRepo->getById($id);
-        $permissions = $this->permissionRepo->getAll();
+        $permission = $this->permissionRepo->getAll();
         $rolePermission = $role->permissions->pluck('id')->all();
-        return view('acl::role.edit',compact('title','description','role','permissions','rolePermission'));
+        return view('acl::role.edit',compact('title','description','role','permission','rolePermission'));
 
     }
     public function update(RoleRequest $request)

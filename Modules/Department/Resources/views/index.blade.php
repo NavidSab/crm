@@ -31,7 +31,7 @@
                         <tr>
                             <th>No</th>
                             <th>Name</th>
-                            <th>Head of Department</th>
+                            <th>Lead of Department</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -60,10 +60,10 @@
                                             <i data-feather="edit-2" class="me-50"></i>
                                             <span>Edit</span>
                                         </a>
-                                           <form id="delete-form" action="{{ route('department.destroy',$department->id) }}" method="POST" class="d-none">
+                                           <form id="delete-form-{{ $department->id }}" action="{{ route('department.destroy',$department->id) }}" method="POST" class="d-none">
                                             @csrf
                                             </form>
-                                           <a class="dropdown-item"  href="javascript:void(0)" onclick="event.preventDefault(); document.getElementById('delete-form').submit();"><i data-feather="trash" class="me-50"></i>Delete</a>
+                                           <a class="dropdown-item"  href="javascript:void(0)" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $department->id }}').submit();"><i data-feather="trash" class="me-50"></i>Delete</a>
                                     </div>
                                 </div>
                             </td>

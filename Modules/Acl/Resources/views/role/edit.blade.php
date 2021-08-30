@@ -31,19 +31,25 @@
                     <input type="text" id="first-name-column" class="form-control" placeholder="Name" name="name" required value="{{ $role->name }}">
                   </div>
                 </div>
-                <div class="col-md-6 col-12">
-                    <div class="mb-1">
-                        <strong>Permission:</strong>
-                        <br/>
-                        @foreach($permissions as $value)
-                            <label>
-                            {{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermission) ? true : false, array('class' => 'name')) }}
-                            {{ $value->name }}
-                        </label>
-                        <br/>
-                        @endforeach
-                    </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="mb-1">
+                  <label class="form-check-label mb-50" for="select-all">Select All</label>
+                  <div class="form-check form-check-success form-switch">
+                    <input type="checkbox"  id="select-all" class="form-check-input"/> 
                   </div>
+                </div>
+                @foreach($permission as $item)
+                <div class="col-md-3 col-12">
+                   <div class="mb-1">
+                    <label class="form-check-label mb-50" for="{{ $item->name }}">{{ $item->name }}</label>
+                      <div class="form-check form-check-success form-switch">
+                      <input name="permission[]" value="{{ $item->id}}" @if(in_array($item->id, $rolePermission)) checked @endif type="checkbox"  class="form-check-input" id="{{ $item->name }}">
+                      </div>
+                   </div>
+                 </div>
+                @endforeach
               </div>
               <div class="row">
                 <div class="col-12">

@@ -1,8 +1,5 @@
-
-
-
-
-@extends('layouts.contentLayoutMaster') @section('title', $title)
+@extends('layouts.contentLayoutMaster')
+ @section('title', $title)
 @section('content')
 <!-- Basic Tables start -->
 <section id="multiple-column-form">
@@ -26,47 +23,52 @@
           <form class="form" action="{{ route('user.store') }}" method="post">
               @csrf
               <div class="row">
-                <div class="col-md-4 col-12">
+                <div class="col-md-3 col-12">
                   <div class="mb-1">
                     <label class="form-label" for="first-name-column"> Name</label>
                     <input type="text" id="first-name-column" class="form-control" placeholder="Name" name="name" required>
                   </div>
                 </div>
-                <div class="col-md-4 col-12">
+                <div class="col-md-3 col-12">
                     <div class="mb-1">
                       <label class="form-label" for="first-email-column"> Email</label>
                       <input type="email" id="first-email-column" class="form-control" placeholder="email" name="email" required>
                     </div>
                   </div>
-                  <div class="col-md-4 col-12">
+                  <div class="col-md-3 col-12">
                     <div class="mb-1">
                       <label class="form-label" for="first-password-column"> Password</label>
                       <input type="password" id="first-password-column" class="form-control" placeholder="password" name="password" required>
                     </div>
                   </div>
-            </div>
-            <div class="row">
-            
-          
-                  <div class="col-md-4 col-12">
+                  <div class="col-md-3 col-12">
                     <div class="mb-1">
                       <label class="form-label" for="first-confirm-password-column"> Confirm Password</label>
                       <input type="password" id="first-confirm-password-column" class="form-control" placeholder="Confirm Password" name="confirm-password" required>
                     </div>
                   </div>
-                  <div class="col-md-6 col-12">
+            </div> 
+            <hr>
+              <legend class="text-primary">Role</legend>
+              <div class="row">
+                <div class="mb-1">
+                  <label class="form-check-label mb-50" for="select-all">Select All</label>
+                      <div class="form-check form-check-success form-switch">
+                          <input type="checkbox"  id="select-all" class="form-check-input"/> 
+                      </div>
+                </div>
+                @foreach($roles as $item)
+                  <div class="col-md-3 col-12">
                     <div class="mb-1">
-                        <strong>Role:</strong>
-                        <select name="roles[]" class="form-control" multiple>
-                            @foreach ($roles as $items )
-                            <option value="{{ $items->id }}">{{ $items->name }}</option>  
-                            @endforeach
-                        </select>
+                      <label class="form-check-label mb-50" for="{{ $item->name }}">{{ $item->name }}</label>
+                        <div class="form-check form-check-success form-switch">
+                          <input name="roles[]" value="{{ $item->id }}" @if(old('roles') == $item->id) checked  @endif type="checkbox"  class="form-check-input" id="{{ $item->name }}">
+                        </div>
                     </div>
                   </div>
-            </div>
+                @endforeach
+              </div>
               <div class="row">
-
                 <div class="col-6">
                     <a href="{{ route('user') }}" class="btn btn-primary btn-prev waves-effect waves-float waves-light">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left align-middle me-sm-25 me-0"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
@@ -74,9 +76,7 @@
                       </a>
                   <button type="submit" class="btn btn-success btn-submit waves-effect waves-float waves-light">Create</button>
                 </div>
-
                 </div>
-            
               </div>
             </form>
           </div>
@@ -87,5 +87,19 @@
 </div>
 <!-- Basic Tables end -->
 @endsection
-
-
+@section('page-script')
+<script>
+$('#select-all').click(function(event) {   
+    if(this.checked) {
+        // Iterate each checkbox
+        $(':checkbox').each(function() {
+            this.checked = true;                        
+        });
+    } else {
+        $(':checkbox').each(function() {
+            this.checked = false;                       
+        });
+    }
+});
+</script>
+@endsection
