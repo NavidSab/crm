@@ -45,16 +45,12 @@ $configData = Helper::applClasses();
   <div class="shadow-bottom"></div>
   <div class="main-menu-content">
     <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-     
-      <li class="active nav-item">
+      <li class="active nav-item @if(Request::path() == '/') active @endif">
         <a class="d-flex align-items-center" href="{{url('/')}}">
           <i data-feather="home"></i>
           <span class="menu-title text-truncate" data-i18n="Home">Home</span>
         </a>
       </li>
-
- 
-
       @if(auth()->user()->hasRole('admin'))
       <li class=" navigation-header"><span data-i18n="Admin Managment">Admin Managment</span><i data-feather="more-horizontal"></i>
       </li>
@@ -82,18 +78,15 @@ $configData = Helper::applClasses();
                 <span class="menu-item text-truncate" data-i18n="Layout Full">Permission</span>
               </a>
               </li>
+              <li>
+                <a class="d-flex align-items-center" href="{{route('module')}}">
+                <i data-feather="circle"></i>
+                <span class="menu-item text-truncate" data-i18n="Layout Full">Modules Manager</span>
+              </a>
+              </li>
           </ul>
-          
       </li>
       @endif
-      <li class=" nav-item">
-        <a class="d-flex align-items-center" href="{{url('/department')}}">
-          <i data-feather="plus"></i>
-          <span class="menu-title text-truncate" data-i18n="Department"> Department</span>
-        </a>
-      </li>
-
-
   </ul>
   </div>
 </div>

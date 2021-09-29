@@ -36,13 +36,10 @@
                   </div>
                 </div>
                 <div class="media-body my-auto">
-<<<<<<< HEAD
                   <h4 class="font-weight-bolder mb-0">  </h4>
                   <a href=""><p class="card-text font-small-3 mb-0"></p></a>
-=======
-                  <h4 class="font-weight-bolder mb-0"> {{  $count_college ?? ''  }} </h4>
-                  <a href="{{ route('college') }}"><p class="card-text font-small-3 mb-0">College</p></a>
->>>>>>> 8d917a38cc029b361939187565068e52b032d53a
+                  <h4 class="font-weight-bolder mb-0">  </h4>
+                  <a href=""><p class="card-text font-small-3 mb-0"></p></a>
                 </div>
               </div>
             </div>

@@ -3,7 +3,9 @@ namespace Modules\User\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Modules\User\Entities\User;
 use Modules\Acl\Entities\Role;
-use DB;
+use Illuminate\Support\Facades\DB;
+
+
 class UserDatabaseSeeder extends Seeder
 {
     /**
