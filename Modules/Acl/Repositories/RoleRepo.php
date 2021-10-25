@@ -18,13 +18,17 @@ class RoleRepo
         $role = new Role();
         return $role->roles();
     }
+    
     public function getOrderBy(){
         return Role::orderBy('id','DESC')->paginate(5);
     }
+
     public function store($request){
         return Role::create([
             'name' => $request->input('name')
         ]);
+
+
     }
     public function storePermission(array $permission,$role)
     {

@@ -3,10 +3,9 @@
     "FileManager": true,
     "Auth": true,
     "User": true,
-    "Menu": true,
     "Acl": true,
     "ModuleManager": true,
     "Payment": true,
-    "Notify": true,
-    "Builder": true
+    "Menu": true,
+    "Notify": true
 }

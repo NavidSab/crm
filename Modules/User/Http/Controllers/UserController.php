@@ -7,8 +7,11 @@ use Modules\User\Http\Requests\UserRequest;
 use Modules\User\Http\Requests\UpdateUserRequest;
 use Modules\Acl\Repositories\RoleRepo;
 use Modules\User\Entities\User;
+
 use DB;
 use Auth;
+
+
 class UserController extends Controller
 {
     public $userRepo;
@@ -21,6 +24,7 @@ class UserController extends Controller
         $this->title='Users';
         $this->description='description';
         $this->middleware('auth');
+    
     }
     public function index(Request $request)
     {
