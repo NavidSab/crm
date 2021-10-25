@@ -4,8 +4,6 @@ use Illuminate\Database\Seeder;
 use Modules\User\Entities\User;
 use Modules\Acl\Entities\Role;
 use Illuminate\Support\Facades\DB;
-
-
 class UserDatabaseSeeder extends Seeder
 {
     /**
@@ -23,10 +21,9 @@ class UserDatabaseSeeder extends Seeder
         $role=Role::create([
             'name' => 'admin', 
         ]);
-
-        DB::table('user_roles')->insert([
+        DB::table('role_user')->insert([
             'role_id' => $role->id,
             'user_id' => $user->id
          ]);
-    }
+   }
 }

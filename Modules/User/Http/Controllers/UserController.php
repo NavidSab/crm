@@ -7,11 +7,8 @@ use Modules\User\Http\Requests\UserRequest;
 use Modules\User\Http\Requests\UpdateUserRequest;
 use Modules\Acl\Repositories\RoleRepo;
 use Modules\User\Entities\User;
-
 use DB;
 use Auth;
-
-
 class UserController extends Controller
 {
     public $userRepo;
@@ -24,7 +21,6 @@ class UserController extends Controller
         $this->title='Users';
         $this->description='description';
         $this->middleware('auth');
-    
     }
     public function index(Request $request)
     {
@@ -67,8 +63,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request)
     {
         $user=$this->userRepo->update($request);
-        $this->userRepo->deleteRole($user->id);
-        $this->userRepo->storeRole($request->input('roles'),$user->id);
+        $this->userRepo->storeRole($request->input('roles'),$user);
         $this->userRepo->deletePermission($user->id);
         $this->userRepo->storePermission($user->id);
         return redirect()->route('user')->with('success','User updated successfully');

@@ -82,6 +82,7 @@ class FileManagerACL
     public function handle($request, Closure $next)
     {
         $routeName = $request->route()->getName();
+        
 
         // if ACL is OFF or route name wasn't found
         if ( ! resolve(ConfigRepository::class)->getAcl()

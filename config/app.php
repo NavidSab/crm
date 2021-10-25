@@ -176,7 +176,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Modules\Acl\Providers\AclServiceProvider::class,
-          
+        Modules\FileManager\Providers\FileManagerServiceProvider::class,
+
     ],
 
     /*
@@ -228,7 +229,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Menu' => Modules\Menu\Http\Facades\Menu::class,
         'Helper' => App\Helpers\Helper::class,
 
     ],

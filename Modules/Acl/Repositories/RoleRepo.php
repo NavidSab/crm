@@ -18,29 +18,17 @@ class RoleRepo
         $role = new Role();
         return $role->roles();
     }
-    
     public function getOrderBy(){
         return Role::orderBy('id','DESC')->paginate(5);
     }
-
     public function store($request){
         return Role::create([
             'name' => $request->input('name')
         ]);
-
-
     }
-    public function storePermission(array $permission , $role_id)
+    public function storePermission(array $permission,$role)
     {
-        foreach($permission as $permissions){
-        DB::table('role_permissions')->insert([
-            'role_id'       => $role_id,
-            'permission_id' => $permissions
-         ]);
-        }
-    }
-    public function deletePermission($role_id){
-        DB::table('role_permissions')->where('role_id',$role_id)->delete();
+        return $role->permissions()->sync($permission);
     }
     public function delete($id)
     {

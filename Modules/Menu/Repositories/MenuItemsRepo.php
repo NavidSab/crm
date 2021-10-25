@@ -11,11 +11,11 @@ class MenuItemsRepo
     }
     public function getByMenuId($id)
     {
-        return MenuItems::where("menu", $id)->orderBy("sort", "asc")->get();
+        return MenuItems::where("menu_id", $id)->orderBy("sort", "asc")->get();
     }
     public function getParentByMenuId($id)
     {
-        return MenuItems::where(['menu'=>$id,'parent'=>0])->get();
+        return MenuItems::where(['menu_id'=>$id,'parent'=>0])->get();
     }
     public function update($request){
         $arraydata = $request->arraydata;
@@ -42,14 +42,23 @@ class MenuItemsRepo
             $menuitem->save();
         }
     }
-    public function addCustomItem($request){
+    public function store($request){
+        die(print_r($request->imagemenu));
+        if(!empty($request->imagemenu)){
+            $imageName = time().'.'.$request->imagemenu->extension();  
+            $request->imagemenu->move(public_path('images'), $imageName);
+        }
         $menuitem = new MenuItems();
         $menuitem->label =$request->labelmenu;
         $menuitem->link = $request->linkmenu;
+        if($request->megamenu == 'on'){
+            $request->megamenu=1;
+        }
+        $menuitem->mega_menu = $request->megamenu;
         if (config('menu.use_roles')) {
             $menuitem->role_id = $request->rolemenu ? $request->rolemenu  : 0 ;
         }
-        $menuitem->menu = $request->idmenu;
+        $menuitem->menu_id = $request->idmenu;
         $menuitem->sort = $this->getNextSortRoot($request->idmenu);
         $menuitem->save();
     }

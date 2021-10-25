@@ -6,5 +6,7 @@
     "Menu": true,
     "Acl": true,
     "ModuleManager": true,
-    "Payment": true
+    "Payment": true,
+    "Notify": true,
+    "Builder": true
 }

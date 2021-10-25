@@ -22,10 +22,10 @@
                 <p class="card-text">
                     {{ $description }}
                 </p>
-                {{-- <a
+                <a
                     type="button"
-                    class="btn btn-success waves-effect waves-float waves-light" href="{{ route('user.create') }}">
-                    <i data-feather="plus"></i>Add</a> --}}
+                    class="btn btn-success waves-effect waves-float waves-light" href="{{ route('module.create') }}">
+                    <i data-feather="plus"></i>Add</a>
             </div>
             <div class="table">
                 <table class="table ">
@@ -40,7 +40,7 @@
                         @foreach ($module as $key => $value)
                         <tr>
                             <td>{{ $key }}</td>
-                            <td>@if($value == 1) <span class="btn btn-success"> Active </span> @else <span class="btn btn-danger"> Diactive </span> @endif</td>
+                            <td>@if($value == 1) <span class="btn btn-success"> Active </span> @else <span class="btn btn-danger"> deactive </span> @endif</td>
 
                             <td>
                                 <div class="dropdown">
@@ -59,7 +59,7 @@
                                             <input type="hidden" name="status" value="false">
                                             @csrf
                                         </form>
-                                        <a class="dropdown-item"  href="javascript:void(0)" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $key }}').submit();">Diactive</a>
+                                        <a class="dropdown-item"  href="javascript:void(0)" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $key }}').submit();">deactive</a>
 
                                         @else
                                         <form id="delete-form-{{ $key }}" action="{{ route('module.update') }}" method="POST" class="d-none">

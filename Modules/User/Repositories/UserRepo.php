@@ -15,6 +15,10 @@ class UserRepo
         $user = new User();
         return $user->roles();
     }
+    public function findByRole(array $role){
+        return User::whereIn('role',$role)->get();
+       
+    }
     public function getAll()
     {
         return User::orderBy('id','DESC')->get();
@@ -35,30 +39,25 @@ class UserRepo
             'password' => Hash::make($request->password),
         ]);
     }
-    public function storeRole(array $role , $user_id)
+    public function storeRole(array $role , $user)
     {
-        foreach($role as $roles){
-         DB::table('user_roles')->insert([
-            'role_id' => $roles,
-            'user_id' => $user_id
-         ]);
-        }
+        return $user->roles()->sync($role);
     }
     public function deletePermission( $user_id)
     {
-        return DB::table('user_permissions')->where('user_id',$user_id)->delete();   
+        return DB::table('permission_user')->where('user_id',$user_id)->delete();   
     }
     public function storePermission( $user_id)
     {
-        $roles=DB::table('user_roles')->where('user_id',$user_id)->get();
+        $roles=DB::table('role_user')->where('user_id',$user_id)->get();
         if($roles){
             foreach($roles as $role){
-                $permissions=DB::table('role_permissions')->where('role_id',$role->role_id)->get();
+                $permissions=DB::table('permission_role')->where('role_id',$role->role_id)->get();
                 if($permissions){
                     foreach($permissions as $permission){
-                        $count=DB::table('user_permissions')->where(['user_id'=>$user_id,'permission_id'=>$permission->permission_id])->count();
+                        $count=DB::table('permission_user')->where(['user_id'=>$user_id,'permission_id'=>$permission->permission_id])->count();
                         if($count == 0){
-                        DB::table('user_permissions')->insert([
+                        DB::table('permission_user')->insert([
                             'permission_id' => $permission->permission_id,
                             'user_id'       => $user_id
                          ]);  
@@ -68,10 +67,20 @@ class UserRepo
             }
         }
     }
-    public function deleteRole($user_id){
-        DB::table('user_roles')->where('user_id',$user_id)->delete();
+    public function syncPermission($role_id){
+        $users=DB::table('role_user')->where('role_id',$role_id)->get();
+        $permissions=DB::table('permission_role')->where('role_id',$role_id)->get();
+        foreach($users as $user){
+            DB::table('permission_user')->where('user_id',$user->user_id)->delete();
+            foreach($permissions as $permission){
+                DB::table('permission_user')->insert([
+                    'permission_id' => $permission->permission_id,
+                    'user_id'       => $user->user_id
+                 ]);  
+            }
+
+        }
     }
-    
     public function update($request)
     {
         if(!empty($request->password))

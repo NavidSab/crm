@@ -20,57 +20,39 @@
               </ul>
             </div>
           @endif
-          <form class="form" action="{{ route('user.store') }}" method="post">
+          <form class="form" action="{{ route('module.store') }}" method="post">
               @csrf
               <div class="row">
-                <div class="col-md-3 col-12">
+                <legend>Method 1</legend>
+                <div class="col-md-6 col-12">
                   <div class="mb-1">
-                    <label class="form-label" for="first-name-column"> Name</label>
-                    <input type="text" id="first-name-column" class="form-control" placeholder="Name" name="name" required>
+                    <label class="form-label" for="url"> Url</label>
+                    <input type="url" id="url" class="form-control" placeholder="Url" name="url" >
                   </div>
                 </div>
-                <div class="col-md-3 col-12">
-                    <div class="mb-1">
-                      <label class="form-label" for="first-email-column"> Email</label>
-                      <input type="email" id="first-email-column" class="form-control" placeholder="email" name="email" required>
-                    </div>
-                  </div>
-                  <div class="col-md-3 col-12">
-                    <div class="mb-1">
-                      <label class="form-label" for="first-password-column"> Password</label>
-                      <input type="password" id="first-password-column" class="form-control" placeholder="password" name="password" required>
-                    </div>
-                  </div>
-                  <div class="col-md-3 col-12">
-                    <div class="mb-1">
-                      <label class="form-label" for="first-confirm-password-column"> Confirm Password</label>
-                      <input type="password" id="first-confirm-password-column" class="form-control" placeholder="Confirm Password" name="confirm-password" required>
-                    </div>
-                  </div>
-            </div> 
-            <hr>
-              <legend class="text-primary">Role</legend>
-              <div class="row">
-                <div class="mb-1">
-                  <label class="form-check-label mb-50" for="select-all">Select All</label>
-                      <div class="form-check form-check-success form-switch">
-                          <input type="checkbox"  id="select-all" class="form-check-input"/> 
-                      </div>
-                </div>
-                @foreach($roles as $item)
-                  <div class="col-md-3 col-12">
-                    <div class="mb-1">
-                      <label class="form-check-label mb-50" for="{{ $item->name }}">{{ $item->name }}</label>
-                        <div class="form-check form-check-success form-switch">
-                          <input name="roles[]" value="{{ $item->id }}" @if(old('roles') == $item->id) checked  @endif type="checkbox"  class="form-check-input" id="{{ $item->name }}">
-                        </div>
-                    </div>
-                  </div>
-                @endforeach
               </div>
               <div class="row">
                 <div class="col-6">
-                    <a href="{{ route('user') }}" class="btn btn-primary btn-prev waves-effect waves-float waves-light">
+                  <button type="submit" class="btn btn-success btn-submit waves-effect waves-float waves-light">Upload</button>
+                </div>
+                </div>
+          </form>
+          <hr>
+          <form class="form" action="{{ route('module.store') }}" method="post" enctype="multipart/form-data">
+            @csrf
+
+            <div class="row">
+                <legend>Method 2</legend>
+                <div class="col-md-6 col-12">
+                    <div class="mb-1">
+                      <label class="form-label" for="file"> File</label>
+                      <input type="file" id="file" class="form-control"  name="file" >
+                    </div>
+                  </div>
+            </div> 
+              <div class="row">
+                <div class="col-6">
+                    <a href="{{ route('module') }}" class="btn btn-primary btn-prev waves-effect waves-float waves-light">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left align-middle me-sm-25 me-0"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
                         <span class="align-middle d-sm-inline-block d-none">Back</span>
                       </a>

@@ -5,63 +5,54 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Modules\Acl\Entities\Role;
 use Modules\Acl\Entities\Permission;
-use Modules\Department\Entities\Department;
+use NotificationChannels\WebPush\HasPushSubscriptions;
+
 
 class User extends Authenticatable
 {
-    use  Notifiable;
+    use  Notifiable,HasPushSubscriptions;
+
     protected $fillable = ['name','email','password'];
-    public function departments()
-    {
-        return $this->belongsToMany(Department::class, 'department_users', 'user_id', 'department_id');
-    }
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id');
+        return $this->belongsToMany(Role::class);
     }
-
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class,'user_permissions');
+        return $this->belongsToMany(Permission::class);
     }
-
-    public function hasRole(...$roles)
+    public function hasRole( $roles)
     {
-       // dd($roles);
-
-        foreach($roles as $role)
-        {
-            if($this->roles->contains('name',$role))
+        if(is_array($roles)){
+            foreach($roles as $role)
             {
-                return true;
+                if($this->roles->contains('name',$role) && is_string($role))
+                {
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
+        if(is_string($roles)){
+            return $this->roles->contains('name',$roles);
+        }
     }
-
-    public function hasPermission($permission)
-    {
-        return $this->hasPermissionThroughRole($permission) || (bool) $this->permissions->where('name',$permission->name)->count();
+    public function assignRole($role){
+        $this->role()->sync(Role::whereName($role->name)->firstorFail()); 
     }
-
- 
-
-    public function hasPermissions(string $permission)
+    public function hasPermission(string $permission)
     {
         if($this->permissions()->where('name', $permission)->first())
-        {
+        { 
             return true;
         }
         else
         {
             return false;
         }
-    
     }
-
     public function hasPermissionThroughRole($permission)
     {
-
         if (is_array($permission->roles) || is_object($permission->roles))
         {
             foreach($permission->roles as $role)
@@ -74,8 +65,11 @@ class User extends Authenticatable
         }
         return false;
     }
-
-    public function givePermission(...$permission)
+    public function getPermissions(array $permissions)
+    {
+        return Permission::whereIn('name',$permissions)->get();
+    }
+    public function storePermission( array $permission)
     {
         $permissions = $this->getPermissions(array_flatten($permission));
         if($permissions === null)
@@ -85,28 +79,15 @@ class User extends Authenticatable
         $this->permissions()->saveMany($permissions);
         return $this; 
     }
-
-    public function getPermissions(array $permissions)
-    {
-        return Permission::whereIn('name',$permissions)->get();
-    }
-
-    public function removePermission(...$permission)
+    public function deletePermission(array $permission)
     {
         $permissions = $this->getPermissions(array_flatten($permission));
         $this->permissions()->detach($permissions);
         return $this;
     }
-
-
-    public function modifyPermission(...$permissions)
+    public function updatePermission(array $permissions)
     {
         $this->permissions()->detach();
-        return $this->givePermission($permissions);
+        return $this->storePermission($permissions);
     }
-
-
-
-
-    
 }

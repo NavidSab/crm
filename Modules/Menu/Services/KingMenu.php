@@ -12,13 +12,16 @@ class KingMenu
     }
     public function render()
     {
+
         $menulist = $this->menuRepo->getMenuList();
         //$roles = Role::all();
+
         if ((request()->has("action") && empty(request()->input("menu"))) || request()->input("menu") == '0') {
             return view('menu::menu-html')->with("menulist" , $menulist);
         } 
         else
-        {
+        {        
+
             $menu =$this->menuRepo->getById(request()->input("menu"));
             $MenuItem =$this->menuitemRepo->getByMenuId(request()->input("menu"));
             $data = ['MenuItem' => $MenuItem, 'menu' => $menu, 'menulist' => $menulist];
@@ -27,6 +30,7 @@ class KingMenu
                 $data['role_pk'] = config('menu.roles_pk');
                 $data['role_title_field'] = config('menu.roles_title_field');
             }
+
             return view('menu::menu-html', $data);
         }
     }

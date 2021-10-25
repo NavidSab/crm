@@ -34,16 +34,24 @@ function addCustomMenu() {
     $('#spincustomu').show();
     $.ajax({
         data: {
-            labelmenu: $('#custom-menu-item-name').val(),
-            linkmenu: $('#custom-menu-item-url').val(),
-            rolemenu: $('#custom-menu-item-role').val(),
-            idmenu: $('#idmenu').val()
+            labelmenu: $('#label').val(),
+            linkmenu: $('#url').val(),
+            rolemenu: $('#role').val(),
+            idmenu: $('#idmenu').val(),
+            megamenu: $('#is_mega').val(),
+            imagemenu: $('#mega_image')[0].files
         },
         url: add_custom_menu,
         type: 'POST',
         success: function (response) {
-            alert('Success Aded Menu Item!');
-            window.location .reload();
+            toastr['success']( 'Success Aded Menu Item! ', 'Good Job',
+            {
+             closeButton: true,
+             tapToDismiss: true,
+             progressBar: true,
+             rtl: true
+           });
+            // window.location .reload();
         },
         complete: function () {
             $('#spincustomu').hide();

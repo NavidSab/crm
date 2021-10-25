@@ -36,15 +36,12 @@ class ModuleManagerController extends Controller
         $module=$this->moduleRepo->getModule();
         return view('modulemanager::index',compact('title','description','module'));
     }
-
-
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
+        /**
+         * Update the specified resource in storage.
+         * @param Request $request
+         * @param int $id
+         * @return Renderable
+         */
     public function update(Request $request)
     {
         $this->moduleRepo->update($request->all());
@@ -53,4 +50,16 @@ class ModuleManagerController extends Controller
     }
 
 
+    public function create()
+    {
+        $title='Module Create';
+        $description= $this->description;
+            return view('modulemanager::create',compact('title','description'));
+    }
+
+    public function store(Request $request)
+    {
+        $this->moduleRepo->store($request->all());
+        return redirect()->route('module')->with('success','Module created successful');
+    }
 }

@@ -5,23 +5,44 @@ use App\Http\Controllers\Controller;
 use Modules\Menu\Entities\Menus;
 use Modules\Menu\Entities\MenuItems;
 use Modules\Menu\Repositories\MenuRepo;
+use Modules\Acl\Repositories\RoleRepo;
 use Modules\Menu\Repositories\MenuItemsRepo;
 class MenuController extends Controller
 {
-    public $menuitemRepo,$menuRepo;
-    public function __construct(MenuRepo $menuRepo,MenuItemsRepo $menuitemRepo){
-        $this->menuitemRepo=$menuitemRepo;
+    public $menuitemRepo,$menuRepo,$roleRepo;
+    public function __construct(MenuRepo $menuRepo,MenuItemsRepo $menuitemRepo,RoleRepo $roleRepo ){
+        $this->title='Menu';
         $this->menuRepo=$menuRepo;
+        $this->menuitemRepo=$menuitemRepo;
+        $this->roleRepo=$roleRepo;
         $this->middleware('auth');
     }
     public function index()
     {
+        $currentUrl = url()->current();
+        $menulist = $this->menuRepo->getMenuList();
+        $title=$this->title;
+        $roles =$this->roleRepo->getRoles(); 
+        if ((request()->has("action") && empty(request()->input("menu"))) || request()->input("menu") == '0') {
+            return view('menu::index',compact('menulist','title','currentUrl'));
+        } 
+        else
+        {        
+
+            $menu =$this->menuRepo->getById(request()->input("menu"));
+            $menuItem =$this->menuitemRepo->getByMenuId(request()->input("menu"));
+            if( config('menu.use_roles')) {
+              
+                return view('menu::index', compact('currentUrl','title','menuItem','menu','menulist','roles'));
+            }
+            return view('menu::index', compact('currentUrl','title','menuItem','menu','menulist'));
+        }
         return view('menu::index');
     }
-    public function createMenu(Request $request)
+    public function create(Request $request)
     {
-
-        $menu=$this->menuRepo->store($request);
+      
+        $menu=$this->menuitemRepo->store($request);
         return json_encode(array("data" => $menu->id));
     }
     public function deleteMenuItem(Request $request)
@@ -46,7 +67,9 @@ class MenuController extends Controller
     }
     public function addCustomMenuItem(Request $request)
     {
-        $this->menuitemRepo->addCustomItem($request);
+        $this->menuitemRepo->store($request);
+        return json_encode(array("data" => $menu->id));
+
     }
     public function generateMenuControl(Request $request)
     {
