@@ -7,5 +7,6 @@
     "ModuleManager": true,
     "Payment": true,
     "Menu": true,
-    "Notify": true
+    "Notify": true,
+    "FormBuilder": true
 }

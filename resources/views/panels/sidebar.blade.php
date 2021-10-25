@@ -97,6 +97,16 @@ $configData = Helper::applClasses();
                 <span class="menu-item text-truncate" data-i18n="Layout Full">Notification</span>
               </a>
               </li>
+
+              
+              <li>
+                <a class="d-flex align-items-center" href="{{route('form')}}">
+                <i data-feather="circle"></i>
+                <span class="menu-item text-truncate" data-i18n="Layout Full">Form</span>
+              </a>
+              </li>
+
+
           </ul>
       </li>
       @endif
